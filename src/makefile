@@ -17,7 +17,7 @@ all: ../bin/run_proj ../bin/init_smat
 	$(CC) $(CFLAGS) ../src/init_smat.o -o ../bin/init_smat
 	
 
-../lib/FileAlmblm.o: ../lib/FileAlmblm.cc ../include/FileAlmblm.h
+../lib/FileAlmblm.o: ../lib/FileAlmblm.cc ../include/FileAlmblm.h ../include/GeneralCoefficient.h
 	$(CC) $(CFLAGS) -c ../lib/FileAlmblm.cc -o ../lib/FileAlmblm.o
 
 ../lib/FileGeneral.o: ../lib/FileGeneral.cc ../include/FileGeneral.h
@@ -27,7 +27,7 @@ all: ../bin/run_proj ../bin/init_smat
 #	$(CC) $(CFLAGS) -c ../lib/GeneralCoefficient.cc -o ../lib/GeneralCoefficient.o
 
 
-../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h
+../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/GeneralCoefficient.h
 	$(CC) $(CFLAGS) -c ../src/run_proj.cc -o ../src/run_proj.o
 
 ../src/init_smat.o: ../src/init_smat.cc

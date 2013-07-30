@@ -23,7 +23,7 @@ class FileAlmblm : public FileGeneral {
 public:
   FileAlmblm (std::string fn);
   ~FileAlmblm ();
-  void read (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::Vector3cd>& Clm, GeneralCoefficient<Eigen::Vector3cd>& O);
+  void read (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::VectorXcd>& Clm, GeneralCoefficient<Eigen::VectorXcd>& O);
 
 };
 
