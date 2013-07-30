@@ -7,4 +7,11 @@
 
 #include "FileGeneral.h"
 
-FileGeneral::FileGeneral(string fn, string fs) : filename(fn), filesuffix(fs) {}
+FileGeneral::FileGeneral(std::string fn, std::string fs) : filename(fn), filesuffix(fs), filenamesuffix(fn + "." + fs) {
+	myfile.open(filenamesuffix.c_str());
+}
+
+FileGeneral::~FileGeneral() {
+	myfile.close();
+}
+

@@ -9,17 +9,24 @@
 #define FILEGENERAL_H
 
 #include <string>
+#include <fstream> // for write/read files
+#include <sstream> // for stringstreams
+#include <iostream>
 
 /// class FileGeneral - 
 class FileGeneral {
   // Attributes
 protected:
-  string filename;
-  string filesuffix;
+  std::string filename;
+  std::string filesuffix;
+  std::string filenamesuffix;
+  std::ifstream myfile;
+  
   // Operations
 public:
-  FileGeneral (string fn, string fs);
+  FileGeneral (std::string fn, std::string fs);
   ~FileGeneral ();
+
 };
 
 #endif

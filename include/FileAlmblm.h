@@ -12,14 +12,19 @@
 #include "GeneralCoefficient.h"
 
 #include <string>
+#include <complex>
+#include <Eigen/Core>
+#include <iostream>
+#include <sstream>
 
 /// class FileAlmblm - 
 class FileAlmblm : public FileGeneral {
   // Operations
 public:
-  FileAlmblm (string fn);
+  FileAlmblm (std::string fn);
   ~FileAlmblm ();
-  void read (GeneralCoefficient<complex<double> >& Alm, GeneralCoefficient<Vector3cd>& Clm, GeneralCoefficient<Vector3cd>& O);
+  void read (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::Vector3cd>& Clm, GeneralCoefficient<Eigen::Vector3cd>& O);
+
 };
 
 #endif
