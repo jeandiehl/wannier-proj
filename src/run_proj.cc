@@ -5,11 +5,7 @@
  * 
  */
 
-#include "FileInproj.h"
-#include "FileAlmblm.h"
-#include "FileRot.h"
-#include "FileSmat.h"
-#include "GeneralCoefficient.h"
+#include "WannierProj"
 
 #include <unistd.h> // for getcwd
 #include <complex>
@@ -25,12 +21,12 @@ int main(int argc, char **argv) {
 	unsigned pos = path.find_last_of("/");
 	std::string w2kProjectName = path.substr(pos + 1, path.length() - (pos + 1) );
 
-	GeneralCoefficient<std::complex<double> > Alm;
-	GeneralCoefficient<Eigen::VectorXcd> Clm;
-	GeneralCoefficient<Eigen::VectorXcd> OverClm;
+	GeneralCoefficient<std::complex<double> > alm;
+	GeneralCoefficient<Eigen::VectorXcd> clm;
+	GeneralCoefficient<Eigen::VectorXcd> overClm;
 
 	FileAlmblm fileAlmBlm(w2kProjectName);
-	fileAlmBlm.read(Alm, Clm, OverClm);
+	fileAlmBlm.read(alm, clm, overClm);
 	
 	std::vector<Eigen::MatrixXcd> R;
 	std::vector<Eigen::MatrixXcd> S;
@@ -47,17 +43,20 @@ int main(int argc, char **argv) {
 	
 	FileInproj fileInproj(w2kProjectName);
 	fileInproj.read(Emin, Emax, selectedOrbitals);
-	std::cout << Emin << " " << Emax << std::endl;
 
-	for(int i = 0; i < selectedOrbitals.size(); i++) {
-		for(int j = 0; j < selectedOrbitals[i].size(); j++) {
-			for(int k = 0; k < selectedOrbitals[i][j].size(); k++) {
-				std::cout << selectedOrbitals[i][j][k];
-			}
-		}
-		std::cout << std::endl;
-	}
-	
+	std::vector<std::vector<double> > energy;
+	FileEnergy fileEnergy(w2kProjectName);
+	fileEnergy.read(energy);
+
+	double EF;
+	FermiEnergy fermi(w2kProjectName);
+	fermi.read(EF);
+
+	Projector proj;
+	Projector projTilde;
+
+	ProjectorCalculator projCalc(Emin, Emax, selectedOrbitals, energy, EF);
+	projCalc.calculate(alm, clm, overClm, proj, projTilde);
 	
 	return 0;
 }

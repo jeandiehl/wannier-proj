@@ -10,12 +10,23 @@ BINDIR := bin
 
 all: ../bin/run_proj ../bin/init_smat
 
-../bin/run_proj: ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../src/run_proj.o
-	$(CC) $(CFLAGS) ../src/run_proj.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o -o ../bin/run_proj
+../bin/run_proj: ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../src/run_proj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o
+	$(CC) $(CFLAGS) ../src/run_proj.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o -o ../bin/run_proj
 
 ../bin/init_smat: ../src/init_smat.o
 	$(CC) $(CFLAGS) ../src/init_smat.o -o ../bin/init_smat
 
+../lib/FermiEnergy.o: ../lib/FermiEnergy.cc ../include/FermiEnergy.h 
+	$(CC) $(CFLAGS) -c ../lib/FermiEnergy.cc -o ../lib/FermiEnergy.o
+	
+../lib/ProjectorCalculator.o: ../lib/ProjectorCalculator.cc ../include/ProjectorCalculator.h 
+	$(CC) $(CFLAGS) -c ../lib/ProjectorCalculator.cc -o ../lib/ProjectorCalculator.o
+
+../lib/Projector.o: ../lib/Projector.cc ../include/Projector.h 
+	$(CC) $(CFLAGS) -c ../lib/Projector.cc -o ../lib/Projector.o
+
+../lib/FileEnergy.o: ../lib/FileEnergy.cc ../include/FileEnergy.h 
+	$(CC) $(CFLAGS) -c ../lib/FileEnergy.cc -o ../lib/FileEnergy.o
 
 ../lib/FileInproj.o: ../lib/FileInproj.cc ../include/FileInproj.h 
 	$(CC) $(CFLAGS) -c ../lib/FileInproj.cc -o ../lib/FileInproj.o
@@ -33,7 +44,7 @@ all: ../bin/run_proj ../bin/init_smat
 	$(CC) $(CFLAGS) -c ../lib/FileGeneral.cc -o ../lib/FileGeneral.o
 
 
-../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h
+../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h 
 	$(CC) $(CFLAGS) -c ../src/run_proj.cc -o ../src/run_proj.o
 
 ../src/init_smat.o: ../src/init_smat.cc
