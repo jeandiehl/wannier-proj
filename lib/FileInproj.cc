@@ -10,11 +10,20 @@
 FileInproj::FileInproj(std::string fn) : FileGeneral::FileGeneral(fn, "inproj") {}
 FileInproj::~FileInproj() {}
 
-void FileInproj::read (double& Emin, double& Emax, double& dE, std::vector<std::vector<std::vector<int > > >& selOrb) {
+void FileInproj::read (double& Emin, double& Emax, std::vector<std::vector<std::vector<int > > >& selOrb) {
+	int LMAX = 3;
+	int ATOMMAX = 4;
+	
+	selOrb.resize(ATOMMAX);
+    for (int i = 0; i < ATOMMAX; i++) {
+        selOrb[i].resize(LMAX+1);
+        for (int j = 0; j < LMAX+1; j++) {
+            selOrb[i][j].resize(2*j + 1, 0);
+        }
+    }
+    
 	std::string line;
 	
-	std::string filename = w2kProjectName + ".inproj";
-	ifstream myfile(filename.c_str());
 
 	int Natom, iatom, jmax, il, Nm;
 	if (myfile.is_open()) {
@@ -41,6 +50,10 @@ void FileInproj::read (double& Emin, double& Emax, double& dE, std::vector<std::
 					
 				}
 			}
+			getline (myfile,line);
+			std::stringstream s2(line);
+			s2 >> Emin;
+			s2 >> Emax;
 			break;
 		}
 	}

@@ -43,11 +43,22 @@ int main(int argc, char **argv) {
 
 	double Emin;
 	double Emax;
-	double dE;
 	std::vector<std::vector<std::vector<int > > > selectedOrbitals;
 	
 	FileInproj fileInproj(w2kProjectName);
-	fileInproj.read(Emin, Emax, dE, selectedOrbitals);
+	fileInproj.read(Emin, Emax, selectedOrbitals);
+	std::cout << Emin << " " << Emax << std::endl;
+
+	for(int i = 0; i < selectedOrbitals.size(); i++) {
+		for(int j = 0; j < selectedOrbitals[i].size(); j++) {
+			for(int k = 0; k < selectedOrbitals[i][j].size(); k++) {
+				std::cout << selectedOrbitals[i][j][k];
+			}
+		}
+		std::cout << std::endl;
+	}
+	
+	
 	return 0;
 }
 

@@ -19,7 +19,7 @@ class FileInproj : public FileGeneral {
 public:
   FileInproj (std::string fn);
   ~FileInproj ();
-  void read (double& Emin, double& Emax, double& dE, std::vector<std::vector<std::vector<int > > >& selectedOrbitals);
+  void read (double& Emin, double& Emax, std::vector<std::vector<std::vector<int > > >& selectedOrbitals);
 };
 
 #endif
