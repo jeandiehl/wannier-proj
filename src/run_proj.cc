@@ -4,8 +4,11 @@
  * Copyright 2013 Jean Diehl <jdiehl@itp.uni-frankfurt.de>
  * 
  */
- 
+
+#include "FileInproj.h"
 #include "FileAlmblm.h"
+#include "FileRot.h"
+#include "FileSmat.h"
 #include "GeneralCoefficient.h"
 
 #include <unistd.h> // for getcwd
@@ -28,8 +31,23 @@ int main(int argc, char **argv) {
 
 	FileAlmblm fileAlmBlm(w2kProjectName);
 	fileAlmBlm.read(Alm, Clm, OverClm);
-std::cout << Alm.getCoefficient(0, 1, 0, 23, 1, 1) << std::endl;
-std::cout << Clm.getCoefficient(5, 1, 0, 2, 1, 1) << std::endl;
+	
+	std::vector<Eigen::MatrixXcd> R;
+	std::vector<Eigen::MatrixXcd> S;
+
+	FileRot fileRot(w2kProjectName);
+	fileRot.read(R);
+
+	FileSmat fileSmat(w2kProjectName);
+	fileSmat.read(S);
+
+	double Emin;
+	double Emax;
+	double dE;
+	std::vector<std::vector<std::vector<int > > > selectedOrbitals;
+	
+	FileInproj fileInproj(w2kProjectName);
+	fileInproj.read(Emin, Emax, dE, selectedOrbitals);
 	return 0;
 }
 
