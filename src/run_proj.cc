@@ -41,6 +41,13 @@ int main(int argc, char **argv) {
 	double Emax;
 	std::vector<std::vector<std::vector<int > > > selectedOrbitals;
 	
+	std::vector<int> multiplicities;
+	std::vector<std::string> atomNames; 
+	FileStruct fileStruct(w2kProjectName);
+	fileStruct.read(multiplicities, atomNames);
+
+
+	
 	FileInproj fileInproj(w2kProjectName);
 	fileInproj.read(Emin, Emax, selectedOrbitals);
 
@@ -55,8 +62,13 @@ int main(int argc, char **argv) {
 	Projector proj;
 	Projector projTilde;
 
-	ProjectorCalculator projCalc(Emin, Emax, selectedOrbitals, energy, EF);
-	projCalc.calculate(alm, clm, overClm, proj, projTilde);
+	ProjectorCalculator projCalc(Emin, Emax, selectedOrbitals, energy, multiplicities, EF);
+	projCalc.calculate(alm, clm, overClm, R, S, proj, projTilde);
+
+	std::string filename = w2kProjectName + ".projtilde";
+	std::ofstream myfile(filename.c_str());
+	myfile << proj << std::endl;
+	myfile.close();
 	
 	return 0;
 }

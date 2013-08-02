@@ -17,5 +17,6 @@
 #include "Projector.h"
 #include "ProjectorCalculator.h"
 #include "FermiEnergy.h"
+#include "FileStruct.h"
 
 #endif
