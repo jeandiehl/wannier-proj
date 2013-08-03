@@ -22,7 +22,7 @@ void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& 
 	Eigen::MatrixXcd P;
 	Eigen::MatrixXcd PPrime;
 	
-	generateUMatrix(S, R, U);
+	generateUMatrix(R, S, U);
 	
 	for(unsigned int ikpoints = 0; ikpoints < Nkpoints; ikpoints++) {
 		unsigned int NenergyIndex = energyIndex[ikpoints].size();
@@ -41,6 +41,7 @@ void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& 
 		}
 		
 		PPrime = U*P;
+		//PPrime = P;
 		Proj.set(ikpoints,PPrime.transpose());
 		//std::cout << std::fixed << std::setprecision(5) << Proj.get(ikpoints) << std::endl << std::endl;
 	}
@@ -116,10 +117,11 @@ void ProjectorCalculator::generateUMatrix(std::vector<Eigen::MatrixXcd>& R, std:
 	unsigned int i = 0;
 	unsigned int mmax = 0;
 	while(i < NcombIndex) {
-		//std::cout << S[combinedIndexL[i]]*R[combinedIndexL[i]] << std::endl;
+		//std::cout << S[combinedIndexL[i]] << std::endl;
+		//std::cout << R[combinedIndexL[i]] << std::endl;
 		mmax = 2*combinedIndexL[i]+1;
 		U.block(i,i,mmax,mmax) = S[combinedIndexL[i]]*R[combinedIndexL[i]];
 		i += mmax;
 	}
-//std::cout << U << std::endl;
+
 }
