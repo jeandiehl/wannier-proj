@@ -37,6 +37,8 @@ Eigen::MatrixXcd Projector::get(int ikpoints) {
 return proj[ikpoints];
 }
 
+int Projector::getMaxKpoints() { return energyIndex.size(); }
+
 
 std::ostream& operator<<(std::ostream& Stream, Projector& P) {
 	unsigned int Nkpoints = P.energyIndex.size();

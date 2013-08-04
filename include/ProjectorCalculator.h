@@ -9,9 +9,12 @@
 #define PROJECTORCALCULATOR_H
 
 #include "Projector.h"
+#include "Overlap.h"
+#include "OverlapCalculator.h"
 
 #include <vector>
 #include <Eigen/Core>
+#include <Eigen/Dense>
 #include <iostream>
 #include <iomanip>
 #include <complex>
@@ -44,8 +47,8 @@ private:
 public:
   ProjectorCalculator (double Emin, double Emax, std::vector<std::vector<std::vector<int > > > selOrb, std::vector<std::vector<double> >& energy, std::vector<int>& mult, double EF);
   ~ProjectorCalculator ();
-  void calculate (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::VectorXcd>& Clm, GeneralCoefficient<Eigen::VectorXcd>& O, std::vector<Eigen::MatrixXcd>& R, std::vector<Eigen::MatrixXcd>& S, Projector& Proj, Projector& ProjTilde);
-  
+  void calculate (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::VectorXcd>& Clm, GeneralCoefficient<Eigen::VectorXcd>& O, std::vector<Eigen::MatrixXcd>& R, std::vector<Eigen::MatrixXcd>& S, Projector& Proj, Projector& ProjTilde, Overlap& Over, Overlap& OverTilde);
+  void orthonormalize(Projector& proj, Projector& projTilde, Overlap& over, Overlap& overTilde);
 
 };
 

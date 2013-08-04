@@ -18,5 +18,7 @@
 #include "ProjectorCalculator.h"
 #include "FermiEnergy.h"
 #include "FileStruct.h"
+#include "Overlap.h"
+#include "OverlapCalculator.h"
 
 #endif

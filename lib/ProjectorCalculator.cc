@@ -13,9 +13,10 @@ ProjectorCalculator::ProjectorCalculator (double emin, double emax, std::vector<
 
 ProjectorCalculator::~ProjectorCalculator () {}
 
-void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::VectorXcd>& Clm, GeneralCoefficient<Eigen::VectorXcd>& O, std::vector<Eigen::MatrixXcd>& R, std::vector<Eigen::MatrixXcd>& S, Projector& Proj, Projector& ProjTilde) {
+void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& Alm, GeneralCoefficient<Eigen::VectorXcd>& Clm, GeneralCoefficient<Eigen::VectorXcd>& O, std::vector<Eigen::MatrixXcd>& R, std::vector<Eigen::MatrixXcd>& S, Projector& Proj, Projector& ProjTilde, Overlap& Over, Overlap& OverTilde) {
 	initialize();
-	Proj.initialize(combinedIndex, energyIndex, combinedIndexJAtom, combinedIndexAtom, combinedIndexL, combinedIndexM);
+	ProjTilde.initialize(combinedIndex, energyIndex, combinedIndexJAtom, combinedIndexAtom, combinedIndexL, combinedIndexM);
+	
 	unsigned int NcombIndex = combinedIndexAtom.size();
 	unsigned int Nkpoints = energyIndex.size();
 	std::complex<double> temp1, temp2;
@@ -42,10 +43,11 @@ void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& 
 		
 		PPrime = U*P;
 		//PPrime = P;
-		Proj.set(ikpoints,PPrime.transpose());
+		ProjTilde.set(ikpoints,PPrime.transpose());
 		//std::cout << std::fixed << std::setprecision(5) << Proj.get(ikpoints) << std::endl << std::endl;
 	}
-	
+
+	orthonormalize(Proj, ProjTilde, Over, OverTilde);
 
 }
 
@@ -124,4 +126,33 @@ void ProjectorCalculator::generateUMatrix(std::vector<Eigen::MatrixXcd>& R, std:
 		i += mmax;
 	}
 
+}
+
+void ProjectorCalculator::orthonormalize(Projector& proj, Projector& projTilde, Overlap& over, Overlap& overTilde) {
+	OverlapCalculator overCalc;
+
+	overCalc.calculate(projTilde, overTilde);
+	proj.initialize(combinedIndex, energyIndex, combinedIndexJAtom, combinedIndexAtom, combinedIndexL, combinedIndexM);
+	
+	Eigen::VectorXd One = Eigen::VectorXd::Constant(combinedIndexJAtom.size(), 1.0);
+	unsigned int Nkpoints = proj.getMaxKpoints();
+
+	
+	for(unsigned int ikpoints = 0; ikpoints < Nkpoints; ikpoints++) {
+		Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> eigSolve(overTilde.get(ikpoints));
+		Eigen::MatrixXcd OverlapEvecs = eigSolve.eigenvectors();
+		Eigen::VectorXd OverlapEvals = eigSolve.eigenvalues();
+
+		
+		Eigen::VectorXd Temp = One.cwiseQuotient(OverlapEvals.cwiseSqrt());
+		Eigen::MatrixXd OverlapDiagSqrt = Temp.asDiagonal();
+		std::cout << OverlapDiagSqrt << std::endl;
+		Eigen::MatrixXcd OverlapSqrt = OverlapEvecs*OverlapDiagSqrt*OverlapEvecs.adjoint();
+
+		Eigen::MatrixXcd Pfinal = OverlapSqrt.transpose()*projTilde.get(ikpoints).transpose();
+		proj.set(ikpoints, Pfinal.transpose());
+		
+	}
+
+		overCalc.calculate(proj, over);
 }

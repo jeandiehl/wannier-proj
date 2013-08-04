@@ -61,14 +61,31 @@ int main(int argc, char **argv) {
 
 	Projector proj;
 	Projector projTilde;
+	Overlap over;
+	Overlap overTilde;
 
 	ProjectorCalculator projCalc(Emin, Emax, selectedOrbitals, energy, multiplicities, EF);
-	projCalc.calculate(alm, clm, overClm, R, S, proj, projTilde);
+	projCalc.calculate(alm, clm, overClm, R, S, proj, projTilde, over, overTilde);
 
 	std::string filename = w2kProjectName + ".projtilde";
 	std::ofstream myfile(filename.c_str());
-	myfile << proj << std::endl;
+	myfile << projTilde << std::endl;
 	myfile.close();
+
+	std::string filename1 = w2kProjectName + ".overtilde";
+	std::ofstream myfile1(filename1.c_str());
+	myfile1 << overTilde << std::endl;
+	myfile1.close();
+
+	std::string filename2 = w2kProjectName + ".proj";
+	std::ofstream myfile2(filename2.c_str());
+	myfile2 << proj << std::endl;
+	myfile2.close();
+
+	std::string filename3 = w2kProjectName + ".over";
+	std::ofstream myfile3(filename3.c_str());
+	myfile3 << over << std::endl;
+	myfile3.close();
 	
 	return 0;
 }

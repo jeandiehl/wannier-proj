@@ -39,6 +39,8 @@ public:
   void set(int ikpoints, Eigen::MatrixXcd P);
   Eigen::MatrixXcd get(int ikpoints);
 
+  int getMaxKpoints();
+  
   friend std::ostream& operator<<(std::ostream& Stream, Projector& P);
 };
 
