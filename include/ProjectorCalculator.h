@@ -44,6 +44,7 @@ private:
   void getSelectedEnergies(std::vector<std::vector<double> >& energy, double EF);
   void generateUMatrix(std::vector<Eigen::MatrixXcd>& R, std::vector<Eigen::MatrixXcd>& S, Eigen::MatrixXcd& U);
   void initialize();
+  void deleteSmallNegatives(Eigen::VectorXd& vec);
 public:
   ProjectorCalculator (double Emin, double Emax, std::vector<std::vector<std::vector<int > > > selOrb, std::vector<std::vector<double> >& energy, std::vector<int>& mult, double EF);
   ~ProjectorCalculator ();

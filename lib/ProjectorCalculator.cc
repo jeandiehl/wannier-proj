@@ -34,10 +34,13 @@ void ProjectorCalculator::calculate (GeneralCoefficient<std::complex<double> >& 
 		for(unsigned int i = 0; i < NcombIndex; i++) {
 			for(unsigned int j = 0; j < NenergyIndex; j++) {
 				temp1 = Alm.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]);
-				temp2 = Clm.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]).transpose()
-				* O.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]);
+				temp2 = Clm.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]).transpose()*O.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]);
 				P(i,j) = temp1 + temp2;
+				//std::cout << temp2 << std::endl;
+				//std::cout << O.getCoefficient(ikpoints, combinedIndexJAtom[i], combinedIndexAtom[i], energyIndex[ikpoints][j], combinedIndexL[i], combinedIndexM[i]) << std::endl;
 				//Proj.set(j,i,ikpoints, temp1+temp2);
+				temp1 = std::complex<double> (0.0,0.0);
+				temp2 = std::complex<double> (0.0,0.0);  
 			}
 		}
 		
@@ -143,10 +146,11 @@ void ProjectorCalculator::orthonormalize(Projector& proj, Projector& projTilde, 
 		Eigen::MatrixXcd OverlapEvecs = eigSolve.eigenvectors();
 		Eigen::VectorXd OverlapEvals = eigSolve.eigenvalues();
 
+		deleteSmallNegatives(OverlapEvals);
 		
 		Eigen::VectorXd Temp = One.cwiseQuotient(OverlapEvals.cwiseSqrt());
 		Eigen::MatrixXd OverlapDiagSqrt = Temp.asDiagonal();
-		std::cout << OverlapDiagSqrt << std::endl;
+		//std::cout << OverlapDiagSqrt << std::endl;
 		Eigen::MatrixXcd OverlapSqrt = OverlapEvecs*OverlapDiagSqrt*OverlapEvecs.adjoint();
 
 		Eigen::MatrixXcd Pfinal = OverlapSqrt.transpose()*projTilde.get(ikpoints).transpose();
@@ -155,4 +159,17 @@ void ProjectorCalculator::orthonormalize(Projector& proj, Projector& projTilde, 
 	}
 
 		overCalc.calculate(proj, over);
+}
+
+
+void ProjectorCalculator::deleteSmallNegatives(Eigen::VectorXd& vec) {
+	double tolerance = 1e-15;
+
+	int size = vec.size();
+	//std::cout << size << std::endl;
+	for(int i = 0; i < size; i++) {
+		if(vec(i) < 0.0 && abs( vec(i) < tolerance ) ) {
+			vec(i) *= -1.0;
+		}
+	}
 }

@@ -98,9 +98,9 @@ void FileAlmblm::read(GeneralCoefficient<std::complex<double> >& Alm, GeneralCoe
 					tempVecOver.resize(3);
 					for(int i = 0; i < 3; i++) {
 						s >> clmOver;
-						tempVecOver(i) = clmOver;
+						tempVecOver(i) = std::complex<double> (clmOver,0.0);
 					}
-					//O.setCoefficient(Nkpoints, Njatom, Natom, Nenergy, Nl, Nl+Nm, tempVecOver );
+					O.setCoefficient(Nkpoints, Njatom, Natom, Nenergy, Nl, Nl+Nm, tempVecOver );
 				}
 			}
 

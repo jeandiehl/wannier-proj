@@ -8,7 +8,12 @@ LIBDIR := lib
 INCDIR := include
 BINDIR := bin
 
-all: ../bin/run_proj ../bin/init_smat
+SRCFILES := $(wildcard ../$(SRCDIR)/*.cc)
+SRCOFILES := $(patsubst %.cc, %.o, $(SRCFILES))
+
+BINFILES := $(patsubst ../$(SRCDIR)/%.cc, ../$(BINDIR)/%, $(SRCFILES))
+
+all: $(BINFILES)
 
 ../bin/run_proj: ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../src/run_proj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o
 	$(CC) $(CFLAGS) ../src/run_proj.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o  ../lib/Overlap.o ../lib/OverlapCalculator.o -o ../bin/run_proj
