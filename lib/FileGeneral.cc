@@ -9,9 +9,12 @@
 
 FileGeneral::FileGeneral(std::string fn, std::string fs) : filename(fn), filesuffix(fs), filenamesuffix(fn + "." + fs) {
 	myfile.open(filenamesuffix.c_str());
+	
 }
 
 FileGeneral::~FileGeneral() {
 	myfile.close();
+
 }
+
 
