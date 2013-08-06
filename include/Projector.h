@@ -44,6 +44,7 @@ public:
   std::vector<std::vector<int> > getEnergyIndex();
   
   friend std::ostream& operator<<(std::ostream& Stream, Projector& P);
+  friend std::istream& operator>>(std::istream& Stream, Projector& Proj);
 };
 
 #endif

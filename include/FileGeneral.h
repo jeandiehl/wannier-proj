@@ -30,6 +30,8 @@ public:
 
   template <class T>
   void write(T output);
+  template <class T>
+  void read(T& input);
 
 };
 
@@ -43,5 +45,10 @@ void FileGeneral::write(T output) {
 	myfileOut << output << std::endl;
 	myfileOut.close();
 	myfile.open(filenamesuffix.c_str());
+}
+
+template <class T> 
+void FileGeneral::read(T& input) {
+	myfile >> input;
 }
 #endif

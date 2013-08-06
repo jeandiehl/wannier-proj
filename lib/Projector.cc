@@ -80,3 +80,52 @@ std::ostream& operator<<(std::ostream& Stream, Projector& P) {
 	
     return Stream;
 }
+
+std::istream& operator>>(std::istream& Stream, Projector& Proj) {
+	std::string line;
+	unsigned int Nkpoints;
+	Eigen::MatrixXcd P;
+	double realP, imagP;
+
+	while ( Stream.good() ) {
+		getline (Stream,line);
+
+		if (line.length() > 28) {
+			if (line.substr(16,13).compare("(k-vector ID)") == 0) {
+				std::stringstream s(line.substr(0,12));
+				s >> Nkpoints;
+			}
+			if (line.substr(16,13).compare("(k-vector ID)") != 0) {
+				
+				unsigned int Nenergy = Proj.energyIndex[Nkpoints-1].size();
+				unsigned int NcombIndex = Proj.combinedIndexJAtom.size();
+				P.resize(Nenergy, NcombIndex);
+				P.setZero();
+				for(unsigned int i = 0; i < Nenergy; i++) {
+					std::stringstream s(line);
+					for(unsigned int j = 0; j < NcombIndex; j++) {
+						
+						realP = 0.0;
+						imagP = 0.0;
+						s >> realP;
+						s >> imagP;
+						//std::cout << realP << " " << imagP << std::endl;
+						P(i,j) = std::complex<double> (realP, imagP);
+						
+					}
+					//std::string test;
+					//std::cin >> test;
+					if(i < Nenergy-1) {
+						getline(Stream, line);
+					}
+				}
+				//std::cout << std::fixed << std::setprecision(4) << P << std::endl << std::endl;
+				Proj.set(Nkpoints-1, P);
+				//std::cout << Proj.get(Nkpoints-1) << std::endl;
+			}
+		}
+			
+	}
+	
+	return Stream;
+}
