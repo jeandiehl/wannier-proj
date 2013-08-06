@@ -13,7 +13,6 @@
 #include "OverlapCalculator.h"
 
 #include <vector>
-#include <Eigen/Core>
 #include <Eigen/Dense>
 #include <iostream>
 #include <iomanip>

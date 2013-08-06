@@ -50,10 +50,23 @@ int main(int argc, char **argv) {
 	FileGeneral projFile(w2kProjectName,"proj");
 	projFile.read<Projector>(proj);
 
-	//std::ifstream myfile;
-	//myfile.open("CaFe2As2.proj");
-	//myfile >> proj;
-	//std::cout << proj.get(0) << std::endl;
+	std::vector<std::vector<Eigen::MatrixXcd> > Symm;
+	std::vector<std::vector<int> > alpha;
+	
+	std::cout << ">> Read *.symm" << std::endl;
+	FileSymm fileSymm(w2kProjectName);
+	fileSymm.read(Symm, alpha, atomNames);
+
+	std::vector<std::vector<double> > energy;
+	std::vector<double> weight;
+	std::cout << ">> Read *.energy file" << std::endl;
+	FileEnergy fileEnergy(w2kProjectName);
+	fileEnergy.read(energy, weight);
+
+	double emin, emax, de, eta;
+	std::cout << ">> Read *.ingf" << std::endl;
+	FileIngf fileIngf(w2kProjectName);
+	fileIngf.read(emin, emax, de, eta);
 
 	std::cout << ">> Write *.proj" << std::endl;
 	projFile.write<Projector>(proj);

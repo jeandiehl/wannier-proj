@@ -21,6 +21,7 @@ public:
   FileEnergy (std::string fn);
   ~FileEnergy ();
   void read (std::vector<std::vector<double> >& energy);
+  void read (std::vector<std::vector<double> >& energy, std::vector<double>& weight);
 };
 
 #endif

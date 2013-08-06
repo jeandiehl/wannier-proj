@@ -1,11 +1,34 @@
+/*
+ * FileSymm.h
+ *
+ * Copyright 2013 Jean Diehl <jdiehl@itp.uni-frankfurt.de>
+ *
+ */
+
+
+#ifndef FILESYMM_H
+#define FILESYMM_H
+
 #include "FileGeneral.h"
 
-/// class FileSymm - 
+#include <iostream>
+#include <vector>
+#include <complex>
+#include <Eigen/Core>
+
+
 class FileSymm : public FileGeneral {
-  // Operations
+
+private:
+
+protected:
+
 public:
-  FileSymm ();
-  ~FileSymm ();
-  void read (vector<MatrixXcd>& S);
+  FileSymm(std::string fn);
+  ~FileSymm();
+	
+  void read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vector<std::vector<int> > alpha, std::vector<std::string>& atomNames);
+  int getAtomIndex(std::string atomName, std::vector<std::string>& atomNames);
 };
 
+#endif
