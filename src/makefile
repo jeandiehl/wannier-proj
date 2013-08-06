@@ -15,8 +15,8 @@ BINFILES := $(patsubst ../$(SRCDIR)/%.cc, ../$(BINDIR)/%, $(SRCFILES))
 
 all: $(BINFILES)
 
-../bin/run_proj: ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../src/run_proj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o
-	$(CC) $(CFLAGS) ../src/run_proj.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o  ../lib/Overlap.o ../lib/OverlapCalculator.o -o ../bin/run_proj
+../bin/run_proj: ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../src/run_proj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o
+	$(CC) $(CFLAGS) ../src/run_proj.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o  ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o -o ../bin/run_proj
 
 ../bin/init_smat: ../src/init_smat.o
 	$(CC) $(CFLAGS) ../src/init_smat.o -o ../bin/init_smat
@@ -27,6 +27,9 @@ all: $(BINFILES)
 
 ../lib/OverlapCalculator.o: ../lib/OverlapCalculator.cc ../include/OverlapCalculator.h 
 	$(CC) $(CFLAGS) -c ../lib/OverlapCalculator.cc -o ../lib/OverlapCalculator.o
+
+../lib/FileOutputproj.o: ../lib/FileOutputproj.cc ../include/FileOutputproj.h 
+	$(CC) $(CFLAGS) -c ../lib/FileOutputproj.cc -o ../lib/FileOutputproj.o
 
 ../lib/FileStruct.o: ../lib/FileStruct.cc ../include/FileStruct.h 
 	$(CC) $(CFLAGS) -c ../lib/FileStruct.cc -o ../lib/FileStruct.o
@@ -59,7 +62,7 @@ all: $(BINFILES)
 	$(CC) $(CFLAGS) -c ../lib/FileGeneral.cc -o ../lib/FileGeneral.o
 
 
-../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h 
+../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h
 	$(CC) $(CFLAGS) -c ../src/run_proj.cc -o ../src/run_proj.o
 
 ../src/init_smat.o: ../src/init_smat.cc

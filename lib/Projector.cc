@@ -39,6 +39,26 @@ return proj[ikpoints];
 
 int Projector::getMaxKpoints() { return energyIndex.size(); }
 
+std::vector<std::vector<int> > Projector::getCombinedIndex() {
+	std::vector<std::vector<int> > combIndex;
+	combIndex.resize(combinedIndexJAtom.size());
+
+	unsigned int NcombIndex = combIndex.size();
+	for(unsigned int i = 0; i < NcombIndex; i++) {
+		combIndex[i].resize(4);
+		combIndex[i][0] = combinedIndexJAtom[i];
+		combIndex[i][1] = combinedIndexAtom[i];
+		combIndex[i][2] = combinedIndexL[i];
+		combIndex[i][3] = combinedIndexM[i];
+	}
+
+	return combIndex;
+}
+
+std::vector<std::vector<int> > Projector::getEnergyIndex() {
+	return energyIndex;
+}
+
 
 std::ostream& operator<<(std::ostream& Stream, Projector& P) {
 	unsigned int Nkpoints = P.energyIndex.size();

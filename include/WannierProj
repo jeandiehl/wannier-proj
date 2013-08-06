@@ -8,6 +8,7 @@
 #ifndef WANNIERPROJ_H
 #define WANNIERPROJ_H
 
+#include "FileOutputproj.h"
 #include "FileInproj.h"
 #include "FileAlmblm.h"
 #include "FileRot.h"
