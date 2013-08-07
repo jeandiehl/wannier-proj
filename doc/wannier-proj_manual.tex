@@ -1,0 +1,149 @@
+\documentclass[a4paper,bibtotocnumbered]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[pdftex]{hyperref}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage[basic]{circ}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{import}
+\usepackage{subfig}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{center} 
+\sffamily
+\vspace*{5mm}
+
+\Huge{Manual:}
+
+\Huge{\texttt{wannier-proj}}
+\vspace{7mm}
+
+\normalsize{
+Goethe-Universität, Frankfurt am Main \\
+Institut für Theoretische Physik \\
+Jean Diehl\\
+August 2013}
+\vspace{38mm}
+
+\end{center}
+
+\section{Introduction}
+\texttt{wannier-proj} is an implementation to calculate projectors from bloch used in wien2k to wannier states as described in \cite{aichhorn}.
+
+The latest version can be found in\\ \url{http://itp.uni-frankfurt.de/~jdiehl/download/wannier-proj/}.
+
+\section{Installation and compilation}
+\begin{itemize}
+	\item \texttt{wannier-proj} uses the Eigen library for linear algebra arithmetics. You can get it from\\
+	\url{http://eigen.tuxfamily.org/}
+	\item unzip where you want, for example your home
+	\item add the following to your \texttt{\textasciitilde /.bashrc}
+	\begin{verbatim}
+		export CPLUS_INCLUDE_PATH=~/eigen-3.1.3
+	\end{verbatim}
+	\item run from bash
+	\begin{verbatim}
+		source ~/.bashrc
+	\end{verbatim}
+	\item now the Eigen library should be available for the linker from this
+	terminal without reboot. If not try rebooting.
+	
+	\item unzip the \texttt{wannier-proj} files you downloaded
+	\item run change to wannier-proj directory and run \texttt{make}
+	\item now \texttt{wannier-proj} should be compiled, check subdirectory \texttt{wannier-proj/bin}
+	for existing executables
+\end{itemize}
+
+\section{Preparation}
+\begin{itemize}
+	\item You need a fully converged \texttt{wien2k} calculation
+	\item change the \texttt{TOT} switch in the \texttt{case.in2} in your
+	wien2k project directory to \texttt{ALM}
+	\item this will produce the \texttt{case.almblm} file when running \texttt{x lapw2}
+	\item use not the original \texttt{lapw2} (this will produce a really huge file),
+	instead the modified one in \texttt{wannier-proj/wien2k/}
+	\item create or use the \texttt{case.inproj} file in your wien2k project
+	directory, rename it to your case
+	\begin{verbatim}
+		1		#  number of atoms
+		2  1  2		#  atom index, No. of orbitals, l
+		-5.5 3.0	#  Energy window
+		45.0 0.0 0.0 1	#  Euler angles (zyz convention), rad/degree 
+
+	\end{verbatim}
+	\item If you want for example project out the Fe3d orbitals, then you set the first line
+	to \texttt{1} for one (irreducible) iron atom, the second line to \texttt{2  1  2} referring
+	with the first number to the iron atoms (index in \texttt{case.struct}, second
+	number one orbital shell in total you project out, third number meaning
+	you chose the $l=2$, i.e. d orbitals, to be projected. In the third line you
+	select an energy window. Bigger is better, but try to narrow down. It is
+	very sensitve to this window. At first do not care about the last line ;)
+	\item this file acts as an input file for the modified \texttt{lapw2},
+	selecting only certain orbitals in a defined energy window
+	\item it also acts as an input file later for the \texttt{wannier-proj}, so if
+	you play around with different orbitals and energy windows, select first a
+	bigger range and run \texttt{lapw2}, later you can narrow down without
+	reproducing the \texttt{case.almblm} file again, if you select in the later
+	steps a subset of orbitals/energies you have written to this file
+	\item run \texttt{x lapw2}
+	\item copy \texttt{case.indm} from the wien2k \texttt{SRC\_templates} folder to
+	your wien2k project directory
+	\item this file is not important for the modified \texttt{lapwdm} from the
+	\texttt{wannier-proj/wien2k} directory, but needs to be there. so no changes needed.
+	\item run \texttt{x lapwdm}
+	\item this procedure should have at least produced the following files
+	\begin{verbatim}
+		case.almblm
+		case.rot
+		case.symm
+	\end{verbatim}
+	\item additionally you should also have at least the following files from scf-cycle:
+	\begin{verbatim}
+		case.struct
+		case.energy
+		case.scf
+	\end{verbatim}
+	
+\end{itemize}
+\section{Running \texttt{wannier-proj}}
+\begin{itemize}
+	\item all the following executables can be found in \texttt{wannier-proj/bin}
+	\item run \texttt{init\_smat} in your wien2k project folder to produce the \texttt{case.smat}
+	file, which contains the connection between spherical and cubic harmonics meaning
+	conversion to irreducible representation of orbitals (yet only s, p, d, no f orbitals)
+	\item now you could - if you want - narrow down the seletion of orbitals or energies
+	in the \texttt{case.inproj} file
+	\item running now \texttt{run\_proj} will produce the projectors, and the following output files
+	\begin{verbatim}
+		case.projtilde
+		case.overtilde
+		case.proj
+		case.over
+		case.outputproj
+	\end{verbatim}
+	\item \texttt{case.projtilde} the auxiliary projectors no orthonormalized,
+	\texttt{case.overtilde} the corresponding overlap matrix, \texttt{case.proj}
+	the orthogonalized/-normalized projectors, and to check this \texttt{case.over}
+	their overlap matrix - which should always be a unitary matrix for each kpoint.
+	\item \texttt{case.outputproj} summarizes which orbitals where projected out,
+	the first rows (also in this order) name the columns of the projector files. The
+	later energy lines, give the energy index from the \texttt{case.energy} file
+	which corresponds to the rows in the projector files.
+\end{itemize}
+
+\newpage
+\begin{thebibliography}{99}
+\bibitem{aichhorn}
+Phys Rev B 80, 085101 (2009)
+
+
+\end{thebibliography}
+
+\end{document}

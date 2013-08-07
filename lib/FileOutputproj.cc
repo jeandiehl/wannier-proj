@@ -114,7 +114,7 @@ void FileOutputproj::write(Projector& proj, std::vector<std::string> atomNames) 
 			myfileOut << combInd[i][j] << " ";
 			
 		}
-		myfileOut << atomNames[combInd[i][1]] << " ";
+		myfileOut << atomNames[combInd[i][0]] << " ";
 			myfileOut << orbitalIrrM[combInd[i][3-1]][combInd[i][3]] << " ";
 		myfileOut << std::endl;
 	}
