@@ -23,5 +23,10 @@
 #include "OverlapCalculator.h"
 #include "FileSymm.h"
 #include "FileIngf.h"
+#include "GreensFunction.h"
+#include "GreensFunctionCalculator.h"
+#include "GreensFunctionProjector.h"
+#include "KSymmSum.h"
+
 
 #endif

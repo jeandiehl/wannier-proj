@@ -76,11 +76,11 @@ int main(int argc, char **argv) {
 	projCalc.calculate(alm, clm, overClm, R, S, proj, projTilde, over, overTilde);
 
 	std::cout << ">> Write *.projtilde" << std::endl;
-	FileGeneral overtildeFile(w2kProjectName,"projtilde");
-	overtildeFile.write<Projector>(projTilde);
+	FileGeneral projtildeFile(w2kProjectName,"projtilde");
+	projtildeFile.write<Projector>(projTilde);
 
 	std::cout << ">> Write *.overtilde" << std::endl;
-	FileGeneral projtildeFile(w2kProjectName,"overtilde");
+	FileGeneral overtildeFile(w2kProjectName,"overtilde");
 	overtildeFile.write<Overlap>(overTilde);
 	
 	std::cout << ">> Write *.proj" << std::endl;

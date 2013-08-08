@@ -42,6 +42,8 @@ public:
   int getMaxKpoints();
   std::vector<std::vector<int> > getCombinedIndex();
   std::vector<std::vector<int> > getEnergyIndex();
+
+  int getMaxCombinedIndex();
   
   friend std::ostream& operator<<(std::ostream& Stream, Projector& P);
   friend std::istream& operator>>(std::istream& Stream, Projector& Proj);

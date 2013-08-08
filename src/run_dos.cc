@@ -68,11 +68,38 @@ int main(int argc, char **argv) {
 	FileIngf fileIngf(w2kProjectName);
 	fileIngf.read(emin, emax, de, eta);
 
-	std::cout << ">> Write *.proj" << std::endl;
-	projFile.write<Projector>(proj);
+	double EF;
+	std::cout << ">> Read Fermi Energy from *.scf file" << std::endl;
+	FermiEnergy fermi(w2kProjectName);
+	fermi.read(EF);
+
+
+	std::vector<Eigen::MatrixXcd> R;
+	std::cout << ">> Read *.rot file" << std::endl;
+	FileRot fileRot(w2kProjectName);
+	fileRot.read(R);
+
+	std::vector<Eigen::MatrixXcd> S;
+	std::cout << ">> Read *.smat file" << std::endl;
+	FileSmat fileSmat(w2kProjectName);
+	fileSmat.read(S);
+
+
+	GreensFunction gf;
+	std::cout << ">> Calculate Greens Function" << std::endl;
+	GreensFunctionCalculator gfCalc(emin, emax, de, eta);
+	gfCalc.calculate(gf, energy, EF);
+
+	GreensFunction gfProj;
+	std::cout << ">> Project Greens Function" << std::endl;
+	GreensFunctionProjector gfProjector;
+	gfProjector.calculate(gf, gfProj, proj);
+
 	
-	std::cout << ">> Write *.outputproj" << std::endl;
-	fileOutputproj.write(proj, atomNames);
+	KSymmSum ksum(Symm, alpha, S, R, weight);
+	GreensFunction gfLocal;
+	std::cout << ">> Calculate symmetrized k-Sum over Greens Function" << std::endl;
+	ksum.calculate(gfProj, gfLocal);
 	
 	return 0;
 }

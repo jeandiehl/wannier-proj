@@ -55,6 +55,8 @@ std::vector<std::vector<int> > Projector::getCombinedIndex() {
 	return combIndex;
 }
 
+int Projector::getMaxCombinedIndex() {return combinedIndexJAtom.size(); }
+
 std::vector<std::vector<int> > Projector::getEnergyIndex() {
 	return energyIndex;
 }
@@ -69,7 +71,8 @@ std::ostream& operator<<(std::ostream& Stream, Projector& P) {
 		unsigned int Nenergy = P.energyIndex[ikpoints].size();
 		for(unsigned int ienergy = 0; ienergy < Nenergy; ienergy++) {
 			for(unsigned int icombIndex = 0; icombIndex < NcombIndex; icombIndex++) {
-			Stream << " " << std::setprecision(5) << std::fixed << std::setw(8) << real(P.proj[ikpoints](ienergy, icombIndex)) << " " << std::setw(8) << imag(P.proj[ikpoints](ienergy, icombIndex));
+			//Stream << " " << std::setprecision(5) << std::fixed << std::setw(8) << real(P.proj[ikpoints](ienergy, icombIndex)) << " " << std::setw(8) << imag(P.proj[ikpoints](ienergy, icombIndex));
+			Stream << " " <<std::scientific  << std::setw(13) << real(P.proj[ikpoints](ienergy, icombIndex)) << " " << std::setw(13) << imag(P.proj[ikpoints](ienergy, icombIndex));
 			if(icombIndex < NcombIndex-1) {
 				Stream << "  ";
 			}
