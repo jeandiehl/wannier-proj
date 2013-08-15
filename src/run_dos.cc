@@ -95,12 +95,19 @@ int main(int argc, char **argv) {
 	GreensFunctionProjector gfProjector;
 	gfProjector.calculate(gf, gfProj, proj);
 
-	
-	KSymmSum ksum(Symm, alpha, S, R, weight);
+	KSymmSum ksum(Symm, alpha,S , R, weight);
 	GreensFunction gfLocal;
 	std::cout << ">> Calculate symmetrized k-Sum over Greens Function" << std::endl;
 	ksum.calculate(gfProj, gfLocal);
-	
+    
+    DOS dos(w2kProjectName, atomNames);
+    DOSCalculator doscalc;
+    std::cout << ">> Calculate DOS from projected Greens Function" << std::endl;
+	doscalc.calculate(gfLocal, dos);
+    
+	std::cout << ">> Write *.projdos" << std::endl;
+	FileGeneral overFile(w2kProjectName,"dosproj");
+	overFile.write<DOS>(dos);    
 	return 0;
 }
 

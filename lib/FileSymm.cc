@@ -11,7 +11,7 @@
 FileSymm::FileSymm(std::string fn) : FileGeneral::FileGeneral(fn, "symm") {}
 FileSymm::~FileSymm() {}
 
-void FileSymm::read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vector<std::vector<int> > alpha, std::vector<std::string>& atomNames) {
+void FileSymm::read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vector<std::vector<int> >& alpha, std::vector<std::string>& atomNames) {
 	std::string line;
 	unsigned int Nl, Nsymm;
     Nl = 0;
@@ -92,6 +92,7 @@ void FileSymm::read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vect
                     s >> atomName1;
                     //std::cout << atomName1 << std::endl;
                     atomIndex = getAtomIndex(atomName1, atomNames);
+                    
                     //std::cout << atomIndex << std::endl;
                     alpha.resize(atomIndex+1);
                     alpha[atomIndex].resize(Nsymm);

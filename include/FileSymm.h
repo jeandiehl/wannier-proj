@@ -27,7 +27,7 @@ public:
   FileSymm(std::string fn);
   ~FileSymm();
 	
-  void read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vector<std::vector<int> > alpha, std::vector<std::string>& atomNames);
+  void read(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vector<std::vector<int> >& alpha, std::vector<std::string>& atomNames);
   int getAtomIndex(std::string atomName, std::vector<std::string>& atomNames);
 };
 

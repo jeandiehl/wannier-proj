@@ -27,6 +27,7 @@
 #include "GreensFunctionCalculator.h"
 #include "GreensFunctionProjector.h"
 #include "KSymmSum.h"
-
+#include "DOS.h"
+#include "DOSCalculator.h"
 
 #endif

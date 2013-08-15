@@ -21,7 +21,9 @@ void GreensFunction::initialize(double eemin, double eemax, double dde, double e
 
 	unsigned int Nkpoints = energy.size();
 	GF.resize(Nkpoints);
+    
 	for(unsigned int i = 0; i < Nkpoints; i++) {
+        //std::cout << Ne << std::endl;
 		GF[i].resize(energy[i].size(), Ne);
 		GF[i].setZero();
 	}
@@ -47,13 +49,13 @@ std::vector<std::vector<int> > GreensFunction::getCombinedIndex() {
 	return combIndex;
 }
 
-double GreensFunction::getEmin() {return emin; }
-double GreensFunction::getEmax() {return emax; }
-double GreensFunction::getDe() {return de; }
-double GreensFunction::getEta() {return eta; }
+double GreensFunction::getEmin() { return emin; }
+double GreensFunction::getEmax() { return emax; }
+double GreensFunction::getDe() { return de; }
+double GreensFunction::getEta() { return eta; }
 
-std::vector<std::vector<double> >& GreensFunction::getEnergy() {return Energy; }
+std::vector<std::vector<double> >& GreensFunction::getEnergy() { return Energy; }
 
-Eigen::MatrixXcd GreensFunction::get(int ikpoints) {return GF[ikpoints]; }
+Eigen::MatrixXcd GreensFunction::get(int ikpoints) { return GF[ikpoints]; }
 
-int GreensFunction::getMaxNkpoints() {return GF.size(); }
+int GreensFunction::getMaxNkpoints() { return GF.size(); }

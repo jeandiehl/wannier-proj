@@ -21,9 +21,19 @@ all: $(BINFILES)
 ../bin/init_smat: ../src/init_smat.o 
 	$(CC) $(CFLAGS) ../src/init_smat.o -o ../bin/init_smat
 
-../bin/run_dos: ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o
-	$(CC) $(CFLAGS) ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o -o ../bin/run_dos
+../bin/run_dos: ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o
+	$(CC) $(CFLAGS) ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o -o ../bin/run_dos
 
+../bin/plot_dos: ../src/plot_dos.o 
+	$(CC) $(CFLAGS) ../src/plot_dos.o -o ../bin/plot_dos
+	
+	
+
+../lib/DOS.o: ../lib/DOS.cc ../include/DOS.h 
+	$(CC) $(CFLAGS) -c ../lib/DOS.cc -o ../lib/DOS.o
+
+../lib/DOSCalculator.o: ../lib/DOSCalculator.cc ../include/DOSCalculator.h 
+	$(CC) $(CFLAGS) -c ../lib/DOSCalculator.cc -o ../lib/DOSCalculator.o
 
 ../lib/KSymmSum.o: ../lib/KSymmSum.cc ../include/KSymmSum.h 
 	$(CC) $(CFLAGS) -c ../lib/KSymmSum.cc -o ../lib/KSymmSum.o
@@ -83,10 +93,13 @@ all: $(BINFILES)
 	$(CC) $(CFLAGS) -c ../lib/FileGeneral.cc -o ../lib/FileGeneral.o
 
 
+../src/plot_dos.o: ../src/plot_dos.cc
+	$(CC) $(CFLAGS) -c ../src/plot_dos.cc -o ../src/plot_dos.o
+
 ../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h 
 	$(CC) $(CFLAGS) -c ../src/run_proj.cc -o ../src/run_proj.o
 
-../src/run_dos.o: ../src/run_dos.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h 
+../src/run_dos.o: ../src/run_dos.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h 
 	$(CC) $(CFLAGS) -c ../src/run_dos.cc -o ../src/run_dos.o
 
 ../src/init_smat.o: ../src/init_smat.cc

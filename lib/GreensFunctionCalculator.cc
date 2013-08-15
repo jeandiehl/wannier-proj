@@ -15,7 +15,7 @@ void GreensFunctionCalculator::calculate(GreensFunction& gf, std::vector<std::ve
 	gf.initialize(emin, emax, de, eta, energy);
 
 	Eigen::MatrixXcd green;
-	
+
 	int Ne = floor( (emax - emin)/de ) + 1;
 	
 	unsigned int Nkpoints = energy.size();
@@ -23,7 +23,7 @@ void GreensFunctionCalculator::calculate(GreensFunction& gf, std::vector<std::ve
 	
 	for(unsigned int i = 0; i < Nkpoints; i++) {
 		unsigned int Nenergy = energy[i].size();
-		//std::cout << Nenergy << std::endl;
+		
 		green.resize(Nenergy, Ne);
 		green.setZero();
 		for(unsigned int j = 0; j < Nenergy; j++) {
