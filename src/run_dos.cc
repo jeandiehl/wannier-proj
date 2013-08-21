@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
     std::cout << ">> Calculate DOS from projected Greens Function" << std::endl;
 	doscalc.calculate(gfLocal, dos);
     
-	std::cout << ">> Write *.projdos" << std::endl;
+	std::cout << ">> Write *.dosproj" << std::endl;
 	FileGeneral overFile(w2kProjectName,"dosproj");
 	overFile.write<DOS>(dos);    
 	return 0;

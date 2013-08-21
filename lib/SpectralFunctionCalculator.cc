@@ -17,21 +17,29 @@ void SpectralFunctionCalculator::calculate(SpectralFunction& sf, GreensFunction&
 	unsigned int Nomega = gf.getMaxNomega();
 	//std::cout << Nkpoints << std::endl;
 	//std::cout << Nomega << std::endl;
+    sf.initialize(gf.getEmin(), gf.getEmax(), gf.getDe(), gf.getCombinedIndex(), Nkpoints);
 	
 	bs.resize(Nomega, Nkpoints);
 	bs.setZero();
+    
+    unsigned int NcombIndex = gf.getCombinedIndex().size();
 
-	for(unsigned int i = 0; i < Nkpoints; i++) {
-		Eigen::MatrixXcd GFkpoint = gf.get(i);
-		unsigned int Nenergy = GFkpoint.rows();
-		for(unsigned int j = 0; j < Nenergy; j++) {
-			bs.col(i) = GFkpoint.row(2);
-            //bs.col(i) += GFkpoint.row(j);
+    for(unsigned int k = 0; k < NcombIndex; k++) {
+		
+		for(unsigned int i = 0; i < Nkpoints; i++) {
+			Eigen::MatrixXcd GFkpoint = gf.get(i);
+			//unsigned int Nenergy = GFkpoint.rows();
+			//std::cout << Nenergy << std::endl;
+			for(unsigned int j = 0; j < NcombIndex; j++) {
+				bs.col(i) = GFkpoint.row(j);
+				//bs.col(i) += GFkpoint.row(j);
+			}
 		}
+		Eigen::MatrixXd bsfinal;
+		bsfinal.resize(Nomega, Nkpoints);
+		bsfinal.setZero();
+		bsfinal = -1.0/M_PI*bs.imag();
+		sf.set(k,bsfinal);
 	}
-	Eigen::MatrixXd bsfinal;
-	bsfinal.resize(Nomega, Nkpoints);
-	bsfinal.setZero();
-	bsfinal = -1.0/M_PI*bs.imag();
-	std::cout << bsfinal << std::endl;
+	//std::cout << bsfinal << std::endl;
 }

@@ -100,6 +100,10 @@ int main(int argc, char **argv) {
     SpectralFunctionCalculator specFuncCalc;
     specFuncCalc.calculate(specFunc, gfProj);
 
+	std::cout << ">> Write *.specproj" << std::endl;
+	FileGeneral overFile(w2kProjectName,"specproj");
+	overFile.write<SpectralFunction>(specFunc);   
+
 	return 0;
 }
 

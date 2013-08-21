@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
     outfile << "set output \"" << texfile.replace(texfile.find("."),1,"_") <<".tex\"" << std::endl << std::endl;
     
     outfile << "set xtics (";
-    for (int i = 0; i < xticsName.size(); i++) {
+    for (unsigned int i = 0; i < xticsName.size(); i++) {
         
         if (xticsName[i].find("xG") < xticsName[i].length()) {
             xticsName[i].replace(xticsName[i].find("\\xG"),3,"$\\\\Gamma$");
