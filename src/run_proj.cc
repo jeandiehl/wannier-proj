@@ -57,9 +57,11 @@ int main(int argc, char **argv) {
 	fileInproj.read(Emin, Emax, selectedOrbitals);
 
 	std::vector<std::vector<double> > energy;
+    std::vector<double> weight;
 	std::cout << ">> Read *.energy file" << std::endl;
 	FileEnergy fileEnergy(w2kProjectName);
-	fileEnergy.read(energy);
+	//fileEnergy.read(energy);
+    fileEnergy.readBands(energy, weight);
 
 	double EF;
 	std::cout << ">> Read Fermi Energy from *.scf file" << std::endl;

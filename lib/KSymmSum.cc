@@ -34,8 +34,27 @@ void KSymmSum::calculate(GreensFunction& gf, GreensFunction& gflocal) {
     Eigen::MatrixXcd OGOsum;
     OGOsum.resize(NcombIndex, NcombIndex);
     Eigen::MatrixXcd GFlocal;
-    GFlocal.resize(NcombIndex, Nenergy);
+    
+    Eigen::MatrixXcd OGOsumReduced;
+
+    std::vector<std::vector<int> > combIndexReduced;
+
+    int NcombIndexReduced = 0;
+    for(unsigned int i = 0; i < NcombIndex; i++) {
+		if(combIndex[i][1] == 0) {
+			NcombIndexReduced++;
+			combIndexReduced.resize(NcombIndexReduced);
+			combIndexReduced[NcombIndexReduced-1].resize(4);
+			combIndexReduced[NcombIndexReduced-1][0] = combIndex[i][0];
+			combIndexReduced[NcombIndexReduced-1][1] = combIndex[i][1];
+			combIndexReduced[NcombIndexReduced-1][2] = combIndex[i][2];
+			combIndexReduced[NcombIndexReduced-1][3] = combIndex[i][3];
+		}
+	}
+	GFlocal.resize(NcombIndexReduced, Nenergy);
     GFlocal.setZero();
+	//std::cout << NcombIndexReduced << std::endl;
+    OGOsumReduced.resize(NcombIndexReduced, NcombIndexReduced);
     
     double weightSum = 0.0;
     for (unsigned int i = 0; i < weight.size(); i++) {
@@ -73,10 +92,51 @@ void KSymmSum::calculate(GreensFunction& gf, GreensFunction& gflocal) {
 			}
             
 		}
-        GFlocal.col(ienergy) = OGOsum.diagonal()/weightSum;
+		Eigen::MatrixXcd temp;
+		unsigned int mult;
+		//std::cout << std::fixed << std::setprecision(3) << std::setw(3) << OGOsum << std::endl << std::endl;
+		for(unsigned i = 0; i < NcombIndex; i++) {
+			mult = combIndex[i][1];
+			if(mult > 0) {
+				//std::cout << "i " << i << std::endl;
+				//std::cout <<  2*combIndex[i][2]+1 << std::endl;
+				temp.resize(2*combIndex[i][2]+1, 2*combIndex[i][2]+1);
+				temp.setZero();
+				//std::cout << temp << std::endl;
+				//std::cout << 2*combIndex[i][2]+1 << std::endl;
+////std::cout << temp << std::endl << std::endl;
+				temp = OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1);
+				//std::cout << std::fixed << std::setprecision(3) << std::setw(3) << temp << std::endl << std::endl;
+				//std::cout << std::fixed << std::setprecision(3) << std::setw(3) << OGOsum.block(i-(2*combIndex[i][2]+1),i-(2*combIndex[i][2]+1),2*combIndex[i][2]+1,2*combIndex[i][2]+1) << std::endl;
+				//std::cout << i << std::endl;
+				//std::cout << i-(2*combIndex[i][2]+1) << std::endl;
+				//std::cout << 2*combIndex[i][2]+1 << std::endl;
+				OGOsum.block(i-mult*(2*combIndex[i][2]+1),i-mult*(2*combIndex[i][2]+1),2*combIndex[i][2]+1,2*combIndex[i][2]+1) += temp;
+				OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1).setZero();
+			}
+			
+			i += 2*combIndex[i][2];
+		}
+		int j = 0;
+		for(unsigned int i = 0; i < NcombIndex; i++) {
+			if(combIndex[i][1] == 0) {
+				OGOsumReduced.block(j,j,2*combIndex[i][2]+1,2*combIndex[i][2]+1) = OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1);
+				j += 2*combIndex[i][2]+1;
+			}
+			i += 2*combIndex[i][2];
+		}
+		
+		//std::cout << std::fixed << std::setprecision(3) << std::setw(3) << OGOsum << std::endl << std::endl;
+		//std::cout << std::fixed << std::setprecision(3) << std::setw(3) << OGOsumReduced << std::endl << std::endl;
+        GFlocal.col(ienergy) = OGOsumReduced.diagonal()/weightSum/Nsymm;
+
+        
         
 	}
-    gflocal.initialize(gf.getEmin(), gf.getEmax(), gf.getDe(), gf.getEta(), gf.getEnergy(), gf.getCombinedIndex());
+	//for(int i = 0; i < combIndexReduced.size(); i++) {
+		//std::cout << combIndexReduced[i][0] << " " << combIndexReduced[i][1] << " "<< combIndexReduced[i][2] << " "<< combIndexReduced[i][3] << " "<< std::endl;
+	//}
+    gflocal.initialize(gf.getEmin(), gf.getEmax(), gf.getDe(), gf.getEta(), gf.getEnergy(), combIndexReduced);
     gflocal.set(0, GFlocal);
     //std::cout << std::fixed << std::setprecision(3) << std::setw(3) << gflocal.get(0) << std::endl;
 }

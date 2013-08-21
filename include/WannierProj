@@ -29,5 +29,9 @@
 #include "KSymmSum.h"
 #include "DOS.h"
 #include "DOSCalculator.h"
+#include "Bands.h"
+#include "BandsCalculator.h"
+#include "SpectralFunction.h"
+#include "SpectralFunctionCalculator.h"
 
 #endif

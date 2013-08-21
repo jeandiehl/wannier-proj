@@ -64,6 +64,7 @@ void ProjectorCalculator::getSelectedEnergies(std::vector<std::vector<double> >&
 		for(unsigned int j = 0; j < Nenergy; j++) {
 			if( ( (Emin/RyEv + EF) <= energy[i][j]) && ( (Emax/RyEv + EF) >= energy[i][j]) ) {
 				selectedEnergies[i][j] = 1;
+				//std::cout << i << " " << j << " " << energy[i][j]  << " " << (energy[i][j] - EF)*RyEv << std::endl;
 			}  else {
 				selectedEnergies[i][j] = 0;
 			}
@@ -76,7 +77,6 @@ void ProjectorCalculator::initialize() {
 	energyIndex.resize(Nkpoints);
 	for(unsigned int i = 0; i < Nkpoints; i++) {
 		unsigned int Nenergy = selectedEnergies[i].size();
-		
 		for(unsigned int j = 0; j < Nenergy; j++) {
 			if(selectedEnergies[i][j] == 1) {
 				energyIndex[i].push_back(j);

@@ -1,5 +1,5 @@
 /*
- * plot_dos.cc
+ * plot_bands.cc
  * 
  * Copyright 2013 Jean Diehl <jdiehl@itp.uni-frankfurt.de>
  * 
@@ -37,42 +37,52 @@ int main(int argc, char **argv) {
 	std::string line;
 
 	std::string name;
-	int ndos = 0;
-	int nenrg = 0;
-	double EF = 0.0;
-	std::vector<std::string> partialNames;
+	std::vector<std::string> xticsName;
+    std::vector<double> xticsPos;
+    std::string xlabel = "k-path";
+    std::string ylabel = "energy / eV";
+    double EF;
+    std::string title;
 	
 	
-	
+	int i = 0;
 	if (infile.is_open()) {
-		
-			getline (infile,line);
-			if(line.substr(0,1).compare("#") == 0) {
-				//std::cout << "." << line << "." << std::endl;
-				name = line.substr(2,line.length()-2);
-				deleteMultipleSpaces(name);
+		while (infile.good()) {
+            getline (infile,line);
+			if(line.substr(0,19).compare("@ xaxis  tick major") == 0) {
+                //std::cout << line << std::endl;
+				std::stringstream s(line.substr(19,4));
+                
+                s >> i;
+                //std::cout << i << std::endl;
+                xticsName.resize(i+1);
+                xticsPos.resize(i+1);
+                std::stringstream s1(line.substr(24,8));
+                double tmp;
+                s1 >> tmp;
+                
+                xticsPos[i] = tmp;
+                //std::cout << xticsPos[i] << std::endl;
 			}
-			getline (infile,line);
-			if(line.substr(0,1).compare("#") == 0) {
-				std::stringstream s2(line.substr(4,15));
-				s2 >> EF;
-				std::stringstream s(line.substr(24,7));
-				s >> ndos;
-				std::stringstream s1(line.substr(37,9));
-				s1 >> nenrg;
+            if(line.substr(0,21).compare(" @ xaxis  ticklabel  ") == 0) {
+                //std::cout << line << std::endl;
+                //std::cout << line.substr(34,line.length()-34) << std::endl;
+                //std::cout << i << std::endl;
+				xticsName[i] = line.substr(34,line.length()-34);
+                //std::cout << xticsName[i] << std::endl;
 			}
-			getline (infile,line);
-			if(line.substr(0,1).compare("#") == 0) {
-				partialNames.resize(ndos);
-				for(int i = 0; i < ndos; i++) {
-					partialNames[i] = line.substr(12+14*i,14);
-					deleteMultipleSpaces(partialNames[i]);
-					//std::cout << "." << partialNames[i] << "." << std::endl;
-				}
-				
-
+            
+            if(line.substr(0,9).compare(" @ title ") == 0) {
+				title = line.substr(9,line.length()-9);
+                //std::cout << title << std::endl;
 			}
-		
+            if(line.substr(0,8).compare("@ string") == 0) {
+                std::stringstream s(line.substr(8,9));
+				s >> EF;
+                //std::cout << EF << std::endl;
+			}
+            
+        }
 	}
 	//std::cout << name << std::endl;
 	//std::cout << ndos << std::endl;
@@ -81,26 +91,40 @@ int main(int argc, char **argv) {
 	
 	
 	infile.close();
-
 	std::string plt = ".plt";
 
 	std::string pltfilename = argv[1] + plt;
 	std::ofstream outfile;
-	
-	outfile.open(pltfilename.c_str());
+    outfile.open(pltfilename.c_str());
+    
     outfile << "#!/usr/bin/gnuplot -persist" << std::endl;
-    outfile << "set terminal epslatex color newstyle size 15cm, 10cm standalone" << std::endl;
+    outfile << "set terminal epslatex color newstyle size 9cm, 10.5cm standalone" << std::endl;
     std::string texfile = argv[1];
     //std::cout << texfile.replace(texfile.find("."),1,"_") << std::endl;
+    texfile = texfile.replace(texfile.find("."),1,"_");
     outfile << "set output \"" << texfile.replace(texfile.find("."),1,"_") <<".tex\"" << std::endl << std::endl;
     
-    outfile << "set xrange[-3:5]" << std::endl;
-    outfile << "set xlabel \"energy / eV\"" << std::endl << std::endl;
-
-    outfile << "set ylabel \"DOS states/eV/spin\"" << std::endl;
-    outfile << "set title \"" << name << "\"" << std::endl << std::endl;
-
-    outfile << "set mxtics 5" << std::endl;
+    outfile << "set xtics (";
+    for (int i = 0; i < xticsName.size(); i++) {
+        
+        if (xticsName[i].find("xG") < xticsName[i].length()) {
+            xticsName[i].replace(xticsName[i].find("\\xG"),3,"$\\\\Gamma$");
+        }
+        outfile << xticsName[i] << " " << xticsPos[i];
+        if (i < xticsName.size()-1) {
+            outfile << ",";
+        } 
+    }
+    
+    outfile << ")" << std::endl;
+    outfile << "set mytics " << xticsName.size() << std::endl;
+    outfile << "set xlabel \"" << xlabel << "\"" << std::endl;
+    outfile << "set ylabel \"" << ylabel << "\"" << std::endl;
+    outfile << "set grid xtics" << std::endl;
+    outfile << "set label \"$\\\\mathsf{E_F}$\" at " << EF+0.15 << ",0 right" << std::endl;
+    outfile << "set style line 1 lt 1 lw 3" << std::endl;
+    outfile << "set title " << title << std::endl << std::endl;
+    
     outfile << "set style line  1 lt 1 lw 3 lc rgb \"#ee4035\"" << std::endl;
     outfile << "set style line  3 lt 1 lw 3 lc rgb \"#b04c6e\"" << std::endl;
     outfile << "set style line  5 lt 1 lw 3 lc rgb \"#6a51a2\"" << std::endl;
@@ -114,17 +138,10 @@ int main(int argc, char **argv) {
     outfile << "set style line 10 lt 1 lw 3 lc rgb \"#f78f1e\"" << std::endl;
     outfile << "set style line 12 lt 1 lw 3 lc rgb \"#f36b2d\"" << std::endl << std::endl;
 
+    outfile << "set yrange [-6:5]" << std::endl;
+    outfile << "set size ratio sqrt(2)" << std::endl;
+    outfile << "plot 0 notitle ls 1 lc rgb \"black\", '" << argv[1] << "' using 1:2 with lines ls 7 notitle" << std::endl;
 
-	outfile << "plot";
-
-	for(int i = 0; i < ndos; i++) {
-		outfile << " '" << argv[1] << "' using 1:" << i+2 << " with lines title '" << partialNames[i] << "' ls " << i+1;
-		if(i < ndos-1) {
-			outfile << ",";
-		}  else {
-			outfile << std::endl;
-		}
-	}
 
 	outfile.close();
 

@@ -1,5 +1,5 @@
 /*
- * run_dos.cc
+ * run_bands.cc
  * 
  * Copyright 2013 Jean Diehl <jdiehl@itp.uni-frankfurt.de>
  * 
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 	
 	std::vector<int> multiplicities;
 	std::vector<std::string> atomNames;
-	std::cout << ">> Read *.struct file" << std::endl;
+	std::cout << "# Read *.struct file" << std::endl;
 	FileStruct fileStruct(w2kProjectName);
 	fileStruct.read(multiplicities, atomNames);
 
@@ -39,75 +39,67 @@ int main(int argc, char **argv) {
 	std::vector<int> combinedIndexL;
 	std::vector<int> combinedIndexM;
 
-	std::cout << ">> Read *.outputproj" << std::endl;
+	std::cout << "# Read *.outputproj" << std::endl;
 	FileOutputproj fileOutputproj(w2kProjectName);
 	fileOutputproj.read(combinedIndex, energyIndex, combinedIndexJAtom, combinedIndexAtom, combinedIndexL, combinedIndexM);
 	
 	Projector proj;
 	proj.initialize(combinedIndex, energyIndex, combinedIndexJAtom, combinedIndexAtom, combinedIndexL, combinedIndexM);
 
-	std::cout << ">> Read *.proj" << std::endl;
+	std::cout << "# Read *.proj" << std::endl;
 	FileGeneral projFile(w2kProjectName,"proj");
 	projFile.read<Projector>(proj);
 
 	std::vector<std::vector<Eigen::MatrixXcd> > Symm;
 	std::vector<std::vector<int> > alpha;
 	
-	std::cout << ">> Read *.symm" << std::endl;
+	std::cout << "# Read *.symm" << std::endl;
 	FileSymm fileSymm(w2kProjectName);
 	fileSymm.read(Symm, alpha, atomNames);
 
 	std::vector<std::vector<double> > energy;
 	std::vector<double> weight;
-	std::cout << ">> Read *.energy file" << std::endl;
+	std::cout << "# Read *.energy file" << std::endl;
 	FileEnergy fileEnergy(w2kProjectName);
-	fileEnergy.read(energy, weight);
+	fileEnergy.readBands(energy, weight);
 
 	double emin, emax, de, eta;
-	std::cout << ">> Read *.ingf" << std::endl;
+	std::cout << "# Read *.ingf" << std::endl;
 	FileIngf fileIngf(w2kProjectName);
 	fileIngf.read(emin, emax, de, eta);
 
 	double EF;
-	std::cout << ">> Read Fermi Energy from *.scf file" << std::endl;
+	std::cout << "# Read Fermi Energy from *.scf file" << std::endl;
 	FermiEnergy fermi(w2kProjectName);
 	fermi.read(EF);
 
 
 	std::vector<Eigen::MatrixXcd> R;
-	std::cout << ">> Read *.rot file" << std::endl;
+	std::cout << "# Read *.rot file" << std::endl;
 	FileRot fileRot(w2kProjectName);
 	fileRot.read(R);
 
 	std::vector<Eigen::MatrixXcd> S;
-	std::cout << ">> Read *.smat file" << std::endl;
+	std::cout << "# Read *.smat file" << std::endl;
 	FileSmat fileSmat(w2kProjectName);
 	fileSmat.read(S);
 
 
 	GreensFunction gf;
-	std::cout << ">> Calculate Greens Function" << std::endl;
+	std::cout << "# Calculate Greens Function" << std::endl;
 	GreensFunctionCalculator gfCalc(emin, emax, de, eta);
 	gfCalc.calculate(gf, energy, EF);
 
 	GreensFunction gfProj;
-	std::cout << ">> Project Greens Function" << std::endl;
+	std::cout << "# Project Greens Function" << std::endl;
 	GreensFunctionProjector gfProjector;
 	gfProjector.calculate(gf, gfProj, proj);
 
-	KSymmSum ksum(Symm, alpha, S, R, weight);
-	GreensFunction gfLocal;
-	std::cout << ">> Calculate symmetrized k-Sum over Greens Function" << std::endl;
-	ksum.calculate(gfProj, gfLocal);
-    
-    DOS dos(w2kProjectName, atomNames);
-    DOSCalculator doscalc;
-    std::cout << ">> Calculate DOS from projected Greens Function" << std::endl;
-	doscalc.calculate(gfLocal, dos);
-    
-	std::cout << ">> Write *.projdos" << std::endl;
-	FileGeneral overFile(w2kProjectName,"dosproj");
-	overFile.write<DOS>(dos);    
+    SpectralFunction specFunc;
+    std::cout << "# Calculate Spectral Function" << std::endl;
+    SpectralFunctionCalculator specFuncCalc;
+    specFuncCalc.calculate(specFunc, gfProj);
+
 	return 0;
 }
 

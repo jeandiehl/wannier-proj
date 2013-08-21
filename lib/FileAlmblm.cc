@@ -15,8 +15,8 @@ void FileAlmblm::read(GeneralCoefficient<std::complex<double> >& Alm, GeneralCoe
 	std::string line;
 	std::string s;
 	std::string str;
-
-	unsigned int Nkpoints, Njatom, Natom, Nenergy;
+    int Nkpoints = -1;
+	unsigned int Njatom, Natom, Nenergy;
 	int Nl, Nm;
 	double almReal, almImag, blmReal, blmImag, clmReal, clmImag, clmOver;
 	
@@ -28,8 +28,10 @@ void FileAlmblm::read(GeneralCoefficient<std::complex<double> >& Alm, GeneralCoe
 				// look for lines identifiing a kpoint
 				if (line.substr(2,7).compare("K-POINT") == 0) {
 					std::stringstream s(line.substr(62,12));
-					s >> Nkpoints;
-					Nkpoints -= 1;
+					//s >> Nkpoints;
+                    //Nkpoints -= 1;
+                    Nkpoints++;
+					
 				}
 				
 			}
