@@ -8,7 +8,10 @@
 
 #include "SpectralFunction.h"
 
-SpectralFunction::SpectralFunction() {}
+SpectralFunction::SpectralFunction(std::vector<std::string> kkpath, std::vector<int> kkpathIndex) {
+	kpath = kkpath;
+	kpathIndex = kkpathIndex;
+}
 SpectralFunction::~SpectralFunction() {}
 
 void SpectralFunction::initialize(double eemin, double eemax, double dde,std::vector<std::vector<int> > ccombIndex, unsigned int Nkpoints) {
@@ -36,6 +39,7 @@ void SpectralFunction::set(int icombIndex, Eigen::MatrixXd sf) {
 
 std::ostream& operator<<(std::ostream& Stream, SpectralFunction& sf) {
     unsigned int MAXL = 4;
+    
 
 	std::vector<std::vector<std::string > > orbitalIrrM;
 	orbitalIrrM.resize(MAXL);
@@ -57,11 +61,27 @@ std::ostream& operator<<(std::ostream& Stream, SpectralFunction& sf) {
     unsigned int Nomega = sf.SF[0].rows();
     unsigned int NcombIndex = sf.SF.size();
 
+	
+    for(unsigned int i = 0; i < sf.kpath.size(); i++) {
+		Stream << "# kpath " << sf.kpath[i] << std::endl;
+		Stream << "# kpathIndex " << sf.kpathIndex[i] << std::endl;
+	}
+	Stream << "# Num SF " << NcombIndex << std::endl;
+    Stream << "# kpoints, energy eV";
+	for(unsigned int k = 0; k < NcombIndex; k++) {
+		Stream << orbitalIrrM[sf.combIndex[k][2]][sf.combIndex[k][3]];
+		if(k < NcombIndex-1) {
+			Stream << ", ";
+		}  else {
+			Stream << std::endl;
+		}
+	}
+	
     for(unsigned int i = 0; i < Nkpoints; i++) {
 		for(unsigned int j = 0; j < Nomega; j++) {
-			Stream << i << "   " << j << "   ";
+			Stream << std::fixed << std::setprecision(6) << std::setw(12) << i << "   " << sf.emin+j*sf.de << "   ";
 			for(unsigned int k = 0; k < NcombIndex; k++) {
-				Stream << sf.SF[k](j,i) << " ";
+				Stream << std::fixed << std::setprecision(6) << std::setw(12) << sf.SF[k](j,i) << " ";
 			}
 			Stream << std::endl;
 		}

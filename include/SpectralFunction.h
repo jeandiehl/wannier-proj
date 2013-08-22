@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <complex>
+#include <iomanip> // setw
 
 #include <Eigen/Core>
 
@@ -28,8 +29,11 @@ protected:
   
   std::vector<std::vector<int> > combIndex;
 
+  std::vector<std::string> kpath;
+  std::vector<int> kpathIndex;
+
 public:
-  SpectralFunction();
+  SpectralFunction(std::vector<std::string> kkpath, std::vector<int> kkpathIndex);
   ~SpectralFunction();
 
   void initialize(double eemin, double eemax, double dde,std::vector<std::vector<int> > ccombIndex, unsigned int Nkpoints);

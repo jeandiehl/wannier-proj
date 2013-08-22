@@ -22,6 +22,7 @@ public:
   ~FileEnergy ();
   void read(std::vector<std::vector<double> >& energy);
   void read(std::vector<std::vector<double> >& energy, std::vector<double>& weight);
+  void readBands(std::vector<std::vector<double> >& energy, std::vector<double>& weight, std::vector<std::string>& kkpath, std::vector<int>& kkpathIndex);
   void readBands(std::vector<std::vector<double> >& energy, std::vector<double>& weight);
 };
 

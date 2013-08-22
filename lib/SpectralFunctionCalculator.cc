@@ -30,10 +30,10 @@ void SpectralFunctionCalculator::calculate(SpectralFunction& sf, GreensFunction&
 			Eigen::MatrixXcd GFkpoint = gf.get(i);
 			//unsigned int Nenergy = GFkpoint.rows();
 			//std::cout << Nenergy << std::endl;
-			for(unsigned int j = 0; j < NcombIndex; j++) {
-				bs.col(i) = GFkpoint.row(j);
+			//for(unsigned int j = 0; j < NcombIndex; j++) {
+				bs.col(i) = GFkpoint.row(k);
 				//bs.col(i) += GFkpoint.row(j);
-			}
+			//}
 		}
 		Eigen::MatrixXd bsfinal;
 		bsfinal.resize(Nomega, Nkpoints);

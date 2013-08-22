@@ -1,5 +1,5 @@
 /*
- * run_bands.cc
+ * run_spec.cc
  * 
  * Copyright 2013 Jean Diehl <jdiehl@itp.uni-frankfurt.de>
  * 
@@ -57,11 +57,13 @@ int main(int argc, char **argv) {
 	FileSymm fileSymm(w2kProjectName);
 	fileSymm.read(Symm, alpha, atomNames);
 
+	std::vector<std::string> kpath;
+    std::vector<int> kpathIndex;
 	std::vector<std::vector<double> > energy;
 	std::vector<double> weight;
 	std::cout << "# Read *.energy file" << std::endl;
 	FileEnergy fileEnergy(w2kProjectName);
-	fileEnergy.readBands(energy, weight);
+	fileEnergy.readBands(energy, weight, kpath, kpathIndex);
 
 	double emin, emax, de, eta;
 	std::cout << "# Read *.ingf" << std::endl;
@@ -95,12 +97,13 @@ int main(int argc, char **argv) {
 	GreensFunctionProjector gfProjector;
 	gfProjector.calculate(gf, gfProj, proj);
 
-    SpectralFunction specFunc;
+    SpectralFunction specFunc(kpath, kpathIndex);
     std::cout << "# Calculate Spectral Function" << std::endl;
     SpectralFunctionCalculator specFuncCalc;
     specFuncCalc.calculate(specFunc, gfProj);
 
-	std::cout << ">> Write *.specproj" << std::endl;
+
+	std::cout << "# Write *.specproj" << std::endl;
 	FileGeneral overFile(w2kProjectName,"specproj");
 	overFile.write<SpectralFunction>(specFunc);   
 
