@@ -1,0 +1,16 @@
+#!/bin/bash
+
+wproot=/home/jean/code/wannier-proj/
+wienroot=/home/jean/WIEN2k_10
+project=${PWD##*/}
+
+
+xcrysden
+x lapw1 -band
+cp $wienroot/SRC_templates/case.insp $project.insp
+EF=$(grep :FER $project.scf | tail -1 | cut -d ' ' -f 13)
+echo $EF
+sed -i s/0.xxxx/$EF/g $project.insp
+x spaghetti
+
+$wproot/bin/plot_bands $project.bands.agr

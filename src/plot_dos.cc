@@ -101,6 +101,7 @@ int main(int argc, char **argv) {
     outfile << "set title \"" << name << "\"" << std::endl << std::endl;
 
     outfile << "set mxtics 5" << std::endl;
+    outfile << "set style line 20 lt 1 lw 3 lc rgb \"#808080\"" << std::endl;
     outfile << "set style line  1 lt 1 lw 3 lc rgb \"#ee4035\"" << std::endl;
     outfile << "set style line  3 lt 1 lw 3 lc rgb \"#b04c6e\"" << std::endl;
     outfile << "set style line  5 lt 1 lw 3 lc rgb \"#6a51a2\"" << std::endl;
@@ -114,17 +115,53 @@ int main(int argc, char **argv) {
     outfile << "set style line 10 lt 1 lw 3 lc rgb \"#f78f1e\"" << std::endl;
     outfile << "set style line 12 lt 1 lw 3 lc rgb \"#f36b2d\"" << std::endl << std::endl;
 
-
 	outfile << "plot";
-
-	for(int i = 0; i < ndos; i++) {
-		outfile << " '" << argv[1] << "' using 1:" << i+2 << " with lines title '" << partialNames[i] << "' ls " << i+1;
-		if(i < ndos-1) {
-			outfile << ",";
-		}  else {
-			outfile << std::endl;
+	
+    if(argc > 3) {
+		std::string compareSwitch = argv[2];
+		if(compareSwitch.compare("-c") == 0) {
+			for(int i = 0; i < ndos; i++) {
+				outfile << " '" << argv[3] << "' using 1:" << i+2 << " with lines notitle '" << partialNames[i] << "' ls 20, ";
+			}
+			for(int i = 0; i < ndos; i++) {
+				if(argc > 4) {
+					std::string compareSwitch2 = argv[4];
+					if(compareSwitch2.compare("-dsymm") == 0) {
+						if(i == ndos-2) {
+							outfile << " '" << argv[1] << "' using 1:($" << i+2 << " + $" << i+3 << ") with lines title '" << partialNames[i] << "' ls " << i+1;
+							i++;
+						}  else {
+							outfile << " '" << argv[1] << "' using 1:" << i+2 << " with lines title '" << partialNames[i] << "' ls " << i+1;
+							if(i < ndos-1) {
+								outfile << ",";
+							}  else {
+								outfile << std::endl;
+							}
+						}
+					}
+				}  else {
+					outfile << " '" << argv[1] << "' using 1:" << i+2 << " with lines title '" << partialNames[i] << "' ls " << i+1;
+					if(i < ndos-1) {
+						outfile << ",";
+					}  else {
+						outfile << std::endl;
+					}
+				}
+			}
+		}
+	}  else {
+		for(int i = 0; i < ndos; i++) {
+			outfile << " '" << argv[1] << "' using 1:" << i+2 << " with lines title '" << partialNames[i] << "' ls " << i+1;
+			if(i < ndos-1) {
+				outfile << ",";
+			}  else {
+				outfile << std::endl;
+			}
 		}
 	}
+
+
+	
 
 	outfile.close();
 

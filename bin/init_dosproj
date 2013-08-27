@@ -1,0 +1,9 @@
+#!/bin/bash
+
+wienroot=/home/jean/WIEN2k_10
+wiensession=/home/jean/WIEN2k_Sessions
+wproot=/home/jean/code/wannier-proj/
+project=${PWD##*/}
+
+# cp case.ingf
+cp $wproot/doc/case.ingf $project.ingf

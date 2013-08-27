@@ -1,0 +1,5 @@
+#!/bin/bash
+
+x kgen
+rm *.broyd*
+run_lapw

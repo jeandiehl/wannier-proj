@@ -1,0 +1,23 @@
+#!/bin/bash
+
+wienroot=/home/jean/WIEN2k_10
+wiensession=/home/jean/WIEN2k_Sessions
+
+# create folders and copy cif
+mkdir $wiensession/$1
+mkdir $wiensession/$1/$2
+cp $3 $wiensession/$1/$2/$2.cif
+
+cd $wiensession/$1/$2
+cif2struct $2.cif
+
+# set project name in struct file
+sed -i s/blebleble/$2/g $2.struct
+
+# batch init wien2k calc
+#init_lapw -b -red 0 -vxc 13 -rkmax 7.0 -fermit TETRA -mix 0.2 -numk 1000
+
+# copy machines file for parallization
+cp $wienroot/SRC_templates/.machines $wiensession/$1/$2/.machines
+
+#run_lapw -ec 0.0001 -p

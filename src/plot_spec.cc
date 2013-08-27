@@ -126,8 +126,12 @@ int main(int argc, char **argv) {
 
 	outfile << "set palette rgb 23,28,3" << std::endl;
 	outfile << "set palette negative" << std::endl;
+	//outfile << "set palette model HSV" << std::endl;
+	//outfile << "set palette rgb 3,2,2" << std::endl;
+	
+	//outfile << "set palette defined ( 0 \"#ffffff\", 1 \"#ee4035\", 2 \"#3cb74f\", 3 \"#b04c6e\", 4 \"#aece3c\", 5 \"#6a51a2\" )" << std::endl;
 	outfile << "set view map" << std::endl;
-	outfile << "unset colorbox" << std::endl << std::endl;
+	//outfile << "unset colorbox" << std::endl << std::endl;
 
 	outfile << "set multiplot" << std::endl << std::endl;
 

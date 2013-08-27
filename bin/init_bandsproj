@@ -1,0 +1,40 @@
+#!/bin/bash
+
+wienroot=/home/jean/WIEN2k_10
+wiensession=/home/jean/WIEN2k_Sessions
+wproot=/home/jean/code/wannier-proj/
+project=${PWD##*/}
+
+cp $wproot/doc/case.inproj $project.inproj
+
+# cp case.ingf
+cp $wproot/doc/case.ingf $project.ingf
+
+rm $project.klist
+cp $project.klist_band $project.klist
+x lapw1
+
+# set alm switch in case.in2
+sed -i s/TOT/ALM/g $project.in2
+sed -i s/TETRA/ROOT/g $project.in2
+
+# run modified lapw2
+$wproot/wien2k/bin-home32/x lapw2
+
+
+# cp case.indm file
+cp $wienroot/SRC_templates/case.indm $project.indm
+
+# run modified lapwdm
+$wproot/wien2k/bin-home32/x lapwdm
+
+
+# reset alm switch in case.in2
+sed -i s/ALM/TOT/g $project.in2
+sed -i s/ROOT/TETRA/g $project.in2
+
+# run init smat
+$wproot/bin/init_smat
+
+$wproot/bin/run_spec
+$wproot/bin/plot_spec $project.specproj

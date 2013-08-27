@@ -26,18 +26,18 @@ int main(int argc, char **argv) {
 	GeneralCoefficient<Eigen::VectorXcd> clm;
 	GeneralCoefficient<Eigen::VectorXcd> overClm;
 
-	std::cout << ">> Read *.almblm file" << std::endl;
+	std::cout << "# Read *.almblm file" << std::endl;
 	FileAlmblm fileAlmBlm(w2kProjectName);
 	fileAlmBlm.read(alm, clm, overClm);
 	
 	std::vector<Eigen::MatrixXcd> R;
 	std::vector<Eigen::MatrixXcd> S;
 
-	std::cout << ">> Read *.rot file" << std::endl;
+	std::cout << "# Read *.rot file" << std::endl;
 	FileRot fileRot(w2kProjectName);
 	fileRot.read(R);
 
-	std::cout << ">> Read *.smat file" << std::endl;
+	std::cout << "# Read *.smat file" << std::endl;
 	FileSmat fileSmat(w2kProjectName);
 	fileSmat.read(S);
 
@@ -47,24 +47,24 @@ int main(int argc, char **argv) {
 	
 	std::vector<int> multiplicities;
 	std::vector<std::string> atomNames;
-	std::cout << ">> Read *.struct file" << std::endl;
+	std::cout << "# Read *.struct file" << std::endl;
 	FileStruct fileStruct(w2kProjectName);
 	fileStruct.read(multiplicities, atomNames);
 
 
-	std::cout << ">> Read *.inproj file" << std::endl;
+	std::cout << "# Read *.inproj file" << std::endl;
 	FileInproj fileInproj(w2kProjectName);
 	fileInproj.read(Emin, Emax, selectedOrbitals);
 
 	std::vector<std::vector<double> > energy;
     std::vector<double> weight;
-	std::cout << ">> Read *.energy file" << std::endl;
+	std::cout << "# Read *.energy file" << std::endl;
 	FileEnergy fileEnergy(w2kProjectName);
 	//fileEnergy.read(energy);
     fileEnergy.readBands(energy, weight);
 
 	double EF;
-	std::cout << ">> Read Fermi Energy from *.scf file" << std::endl;
+	std::cout << "# Read Fermi Energy from *.scf file" << std::endl;
 	FermiEnergy fermi(w2kProjectName);
 	fermi.read(EF);
 
@@ -73,27 +73,27 @@ int main(int argc, char **argv) {
 	Overlap over;
 	Overlap overTilde;
 
-	std::cout << ">> Calculate Projectors" << std::endl;
+	std::cout << "# Calculate Projectors" << std::endl;
 	ProjectorCalculator projCalc(Emin, Emax, selectedOrbitals, energy, multiplicities, EF);
 	projCalc.calculate(alm, clm, overClm, R, S, proj, projTilde, over, overTilde);
 
-	std::cout << ">> Write *.projtilde" << std::endl;
+	std::cout << "# Write *.projtilde" << std::endl;
 	FileGeneral projtildeFile(w2kProjectName,"projtilde");
 	projtildeFile.write<Projector>(projTilde);
 
-	std::cout << ">> Write *.overtilde" << std::endl;
+	std::cout << "# Write *.overtilde" << std::endl;
 	FileGeneral overtildeFile(w2kProjectName,"overtilde");
 	overtildeFile.write<Overlap>(overTilde);
 	
-	std::cout << ">> Write *.proj" << std::endl;
+	std::cout << "# Write *.proj" << std::endl;
 	FileGeneral projFile(w2kProjectName,"proj");
 	projFile.write<Projector>(proj);
 
-	std::cout << ">> Write *.over" << std::endl;
+	std::cout << "# Write *.over" << std::endl;
 	FileGeneral overFile(w2kProjectName,"over");
 	overFile.write<Overlap>(over);
 
-	std::cout << ">> Write *.outputproj" << std::endl;
+	std::cout << "# Write *.outputproj" << std::endl;
 	FileOutputproj fileOutputproj(w2kProjectName);
 	fileOutputproj.write(proj, atomNames);
 	

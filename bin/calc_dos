@@ -1,0 +1,11 @@
+#!/bin/bash
+
+wproot=/home/jean/code/wannier-proj/
+
+x lapw2 -qtl
+configure_int
+x tetra
+
+
+project=${PWD##*/}
+$wproot/bin/plot_dos $project.dos1ev
