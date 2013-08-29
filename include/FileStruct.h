@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <string>
+#include <Eigen/Core>
 
 /// class FileStruct - 
 class FileStruct : public FileGeneral {
@@ -20,6 +21,7 @@ public:
   FileStruct (std::string fn);
   ~FileStruct ();
   void read (std::vector<int>& mult, std::vector<std::string>& atomNames);
+  void read (std::vector<int>& mult, std::vector<std::string>& atomNames, std::vector<Eigen::Vector3d>& atomPositions);
 };
 
 #endif

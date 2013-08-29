@@ -1,7 +1,7 @@
 #!/bin/bash
 
-wproot=/home/jean/code/wannier-proj/
-wienroot=/home/jean/WIEN2k_10
+wproot=~/code/wannier-proj/
+wienroot=~/WIEN2k_10
 project=${PWD##*/}
 
 

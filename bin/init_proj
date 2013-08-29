@@ -1,8 +1,11 @@
 #!/bin/bash
 
-wienroot=/home/jean/WIEN2k_10
-wiensession=/home/jean/WIEN2k_Sessions
-wproot=/home/jean/code/wannier-proj/
+#wienroot=/home/jean/WIEN2k_10
+#wiensession=/home/jean/WIEN2k_Sessions
+#wproot=/home/jean/code/wannier-proj/
+wienroot=~/WIEN2k_10
+wiensession=~/WIEN2k_Sessions
+wproot=~/code/wannier-proj
 project=${PWD##*/}
 
 # cp case.inproj file
@@ -12,14 +15,14 @@ cp $wproot/doc/case.inproj $project.inproj
 sed -i s/TOT/ALM/g $project.in2
 
 # run modified lapw2
-$wproot/wien2k/bin-home32/x lapw2
+$wproot/wien2k/bin-uni64/x lapw2
 
 
 # cp case.indm file
 cp $wienroot/SRC_templates/case.indm $project.indm
 
 # run modified lapwdm
-$wproot/wien2k/bin-home32/x lapwdm
+$wproot/wien2k/bin-uni64/x lapwdm
 
 
 # reset alm switch in case.in2

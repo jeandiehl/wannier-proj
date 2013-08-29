@@ -21,6 +21,7 @@ public:
   FermiEnergy (std::string fn);
   ~FermiEnergy ();
   void read (double& EF);
+  void read(double& EF, double& volUnitcell);
 };
 
 #endif

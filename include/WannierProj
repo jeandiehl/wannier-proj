@@ -33,5 +33,10 @@
 #include "BandsCalculator.h"
 #include "SpectralFunction.h"
 #include "SpectralFunctionCalculator.h"
+#include "FilePsink.h"
+#include "FileKlist.h"
+#include "WaveFunction.h"
+#include "FileIn7.h"
+#include "WannierFunctionCalculator.h"
 
 #endif
