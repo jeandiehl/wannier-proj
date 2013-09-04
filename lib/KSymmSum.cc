@@ -14,6 +14,103 @@ KSymmSum::KSymmSum(std::vector<std::vector<Eigen::MatrixXcd> >& Symm, std::vecto
 }
 KSymmSum::~KSymmSum() {}
 
+void KSymmSum::calculate(WaveFunction& wf, WaveFunction& wflocal) {
+    	
+	Eigen::MatrixXcd O;
+	std::vector<std::vector<int> > combIndex = wf.getCombinedIndex();
+	
+	unsigned int NcombIndex = combIndex.size();
+	O.resize(NcombIndex,NcombIndex);
+	
+	unsigned int Nkpoints = wf.getMaxNkpoints();
+	unsigned int Nsymm = L[1].size();
+	Eigen::MatrixXcd temp;
+	Eigen::MatrixXcd OGO;
+    unsigned int Nenergy = wf.getNspaceTotal();
+    
+    Eigen::MatrixXcd OGOsum;
+    OGOsum.resize(NcombIndex, NcombIndex);
+    Eigen::MatrixXcd WFlocal;
+    
+    Eigen::MatrixXcd OGOsumReduced;
+
+    std::vector<std::vector<int> > combIndexReduced;
+
+    int NcombIndexReduced = 0;
+    for(unsigned int i = 0; i < NcombIndex; i++) {
+		if(combIndex[i][1] == 0) {
+			NcombIndexReduced++;
+			combIndexReduced.resize(NcombIndexReduced);
+			combIndexReduced[NcombIndexReduced-1].resize(4);
+			combIndexReduced[NcombIndexReduced-1][0] = combIndex[i][0];
+			combIndexReduced[NcombIndexReduced-1][1] = combIndex[i][1];
+			combIndexReduced[NcombIndexReduced-1][2] = combIndex[i][2];
+			combIndexReduced[NcombIndexReduced-1][3] = combIndex[i][3];
+		}
+	}
+	WFlocal.resize(NcombIndexReduced, Nenergy);
+    WFlocal.setZero();
+    OGOsumReduced.resize(NcombIndexReduced, NcombIndexReduced);
+    
+    double weightSum = 0.0;
+    for (unsigned int i = 0; i < weight.size(); i++) {
+        weightSum += weight[i];
+    }
+
+	for(unsigned int ienergy = 0; ienergy < Nenergy; ienergy++) {
+        OGOsum.setZero();
+        for(unsigned int ikpoints = 0; ikpoints < Nkpoints; ikpoints++) {
+			for(unsigned int isymm = 0; isymm < Nsymm; isymm++) {
+                O.setZero();
+                unsigned int i = 0;
+                unsigned int mmax = 0;
+                while(i < NcombIndex) {
+                    mmax = 2*combIndex[i][2]+1;
+                    if( alpha[combIndex[i][0]][isymm] == combIndex[i][1] ) {
+                        O.block(i,i,mmax,mmax) = L[combIndex[i][2]][isymm];
+                    }
+                    i += mmax;
+                }
+                Eigen::MatrixXcd G = wf.get(ikpoints, ienergy);
+                OGO.setZero();
+                OGO = O.adjoint()*G*O;
+                OGOsum += OGO*weight[ikpoints];
+			}
+            
+		}
+
+		Eigen::MatrixXcd temp;
+		unsigned int mult;
+		for(unsigned i = 0; i < NcombIndex; i++) {
+			mult = combIndex[i][1];
+			if(mult > 0) {
+				temp.resize(2*combIndex[i][2]+1, 2*combIndex[i][2]+1);
+				temp.setZero();
+				temp = OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1);
+				OGOsum.block(i-mult*(2*combIndex[i][2]+1),i-mult*(2*combIndex[i][2]+1),2*combIndex[i][2]+1,2*combIndex[i][2]+1) += temp;
+				OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1).setZero();
+			}
+			
+			i += 2*combIndex[i][2];
+		}
+		int j = 0;
+		for(unsigned int i = 0; i < NcombIndex; i++) {
+			if(combIndex[i][1] == 0) {
+				OGOsumReduced.block(j,j,2*combIndex[i][2]+1,2*combIndex[i][2]+1) = OGOsum.block(i,i,2*combIndex[i][2]+1,2*combIndex[i][2]+1);
+				j += 2*combIndex[i][2]+1;
+			}
+			i += 2*combIndex[i][2];
+		}
+		
+        WFlocal.col(ienergy) = OGOsumReduced.diagonal()/weightSum/Nsymm;
+
+        
+        
+	}
+    wflocal.initialize(wf.getNspace(), combIndexReduced);
+    wflocal.set(0, WFlocal);
+}
+
 void KSymmSum::calculate(GreensFunction& gf, GreensFunction& gflocal) {
 	
 	Eigen::MatrixXcd O;

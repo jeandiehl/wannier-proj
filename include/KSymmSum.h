@@ -15,6 +15,7 @@
 
 #include "GreensFunction.h"
 #include "Projector.h"
+#include "WaveFunction.h"
 
 class KSymmSum {
 
@@ -34,6 +35,7 @@ public:
   ~KSymmSum();
 
   void calculate(GreensFunction& gf, GreensFunction& gflocal);
+  void calculate(WaveFunction& wf, WaveFunction& wflocal);
 
 };
 

@@ -55,7 +55,7 @@ void FileStruct::read (std::vector<int>& mult, std::vector<std::string>& atomNam
 }
 
 
-void FileStruct::read (std::vector<int>& mult, std::vector<std::string>& atomNames, std::vector<Eigen::Vector3d>& atomPositions) {
+void FileStruct::read (std::vector<int>& mult, std::vector<std::string>& atomNames, std::vector<std::vector<Eigen::Vector3d> >& atomPositions) {
 	int Natom = 0;
 	unsigned int Nmult = 0;
 	std::string atomName = "";
@@ -112,8 +112,9 @@ void FileStruct::read (std::vector<int>& mult, std::vector<std::string>& atomNam
                     tempVec(0) = temp1;
                     tempVec(1) = temp2;
                     tempVec(2) = temp3;
-
-                    atomPositions.push_back(tempVec);
+                    
+                    atomPositions.resize(Natom);
+                    atomPositions[Natom-1].push_back(tempVec);
                     //std::cout << atomPositions[Natom-1] << std::endl << std::endl;
 				}
 			}

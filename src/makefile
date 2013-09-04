@@ -21,14 +21,14 @@ all: $(BINFILES)
 ../bin/init_smat: ../src/init_smat.o 
 	$(CC) $(CFLAGS) ../src/init_smat.o -o ../bin/init_smat
 
-../bin/run_dos: ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o
-	$(CC) $(CFLAGS) ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o -o ../bin/run_dos
+../bin/run_dos: ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/WaveFunction.o
+	$(CC) $(CFLAGS) ../src/run_dos.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/WaveFunction.o -o ../bin/run_dos
 
 ../bin/plot_dos: ../src/plot_dos.o 
 	$(CC) $(CFLAGS) ../src/plot_dos.o -o ../bin/plot_dos
 	
-../bin/run_spec: ../src/run_spec.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o
-	$(CC) $(CFLAGS) ../src/run_spec.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o -o ../bin/run_spec
+../bin/run_spec: ../src/run_spec.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o ../lib/WaveFunction.o
+	$(CC) $(CFLAGS) ../src/run_spec.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o ../lib/WaveFunction.o -o ../bin/run_spec
 
 ../bin/plot_bands: ../src/plot_bands.o 
 	$(CC) $(CFLAGS) ../src/plot_bands.o -o ../bin/plot_bands
@@ -39,11 +39,14 @@ all: $(BINFILES)
 ../bin/run_wannier: ../src/run_wannier.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o ../lib/FilePsink.o ../lib/FileKlist.o ../lib/WaveFunction.o ../lib/FileIn7.o ../lib/WannierFunctionCalculator.o
 	$(CC) $(CFLAGS) ../src/run_wannier.o ../lib/FileAlmblm.o ../lib/FileGeneral.o ../lib/FileRot.o ../lib/FileSmat.o ../lib/FileInproj.o ../lib/ProjectorCalculator.o ../lib/Projector.o ../lib/FileEnergy.o ../lib/FermiEnergy.o ../lib/FileStruct.o ../lib/Overlap.o ../lib/OverlapCalculator.o ../lib/FileOutputproj.o ../lib/FileSymm.o ../lib/FileIngf.o ../lib/GreensFunction.o ../lib/GreensFunctionCalculator.o ../lib/GreensFunctionProjector.o ../lib/KSymmSum.o ../lib/DOSCalculator.o ../lib/DOS.o ../lib/BandsCalculator.o ../lib/Bands.o ../lib/SpectralFunctionCalculator.o ../lib/SpectralFunction.o ../lib/FilePsink.o ../lib/FileKlist.o ../lib/WaveFunction.o ../lib/FileIn7.o ../lib/WannierFunctionCalculator.o -o ../bin/run_wannier
 
-../lib/WannierFunctionCalculator.o: ../lib/WannierFunctionCalculator.cc ../include/WannierFunctionCalculator.h 
+../lib/WannierFunctionCalculator.o: ../lib/WannierFunctionCalculator.cc ../include/WannierFunctionCalculator.h ../include/KSymmSum.h
 	$(CC) $(CFLAGS) -c ../lib/WannierFunctionCalculator.cc -o ../lib/WannierFunctionCalculator.o
 
 ../lib/FileIn7.o: ../lib/FileIn7.cc ../include/FileIn7.h 
 	$(CC) $(CFLAGS) -c ../lib/FileIn7.cc -o ../lib/FileIn7.o
+
+../lib/KSymmSum.o: ../lib/KSymmSum.cc ../include/KSymmSum.h ../lib/WaveFunction.cc ../include/WaveFunction.h 
+	$(CC) $(CFLAGS) -c ../lib/KSymmSum.cc -o ../lib/KSymmSum.o
 
 ../lib/WaveFunction.o: ../lib/WaveFunction.cc ../include/WaveFunction.h 
 	$(CC) $(CFLAGS) -c ../lib/WaveFunction.cc -o ../lib/WaveFunction.o
@@ -71,9 +74,6 @@ all: $(BINFILES)
 
 ../lib/DOSCalculator.o: ../lib/DOSCalculator.cc ../include/DOSCalculator.h 
 	$(CC) $(CFLAGS) -c ../lib/DOSCalculator.cc -o ../lib/DOSCalculator.o
-
-../lib/KSymmSum.o: ../lib/KSymmSum.cc ../include/KSymmSum.h 
-	$(CC) $(CFLAGS) -c ../lib/KSymmSum.cc -o ../lib/KSymmSum.o
 
 ../lib/GreensFunctionProjector.o: ../lib/GreensFunctionProjector.cc ../include/GreensFunctionProjector.h 
 	$(CC) $(CFLAGS) -c ../lib/GreensFunctionProjector.cc -o ../lib/GreensFunctionProjector.o
@@ -136,7 +136,7 @@ all: $(BINFILES)
 ../src/plot_bands.o: ../src/plot_bands.cc
 	$(CC) $(CFLAGS) -c ../src/plot_bands.cc -o ../src/plot_bands.o
 
-../src/run_spec.o: ../src/run_spec.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h ../include/BandsCalculator.h ../include/Bands.h  ../include/SpectralFunction.h  ../include/SpectralFunctionCalculator.h
+../src/run_spec.o: ../src/run_spec.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h ../include/BandsCalculator.h ../include/Bands.h  ../include/SpectralFunction.h  ../include/SpectralFunctionCalculator.h ../include/WaveFunction.h
 	$(CC) $(CFLAGS) -c ../src/run_spec.cc -o ../src/run_spec.o
 	
 ../src/run_wannier.o: ../src/run_wannier.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h ../include/BandsCalculator.h ../include/Bands.h  ../include/SpectralFunction.h  ../include/SpectralFunctionCalculator.h  ../include/FileKlist.h  ../include/FilePsink.h ../include/WaveFunction.h ../include/FileIn7.h  ../include/WannierFunctionCalculator.h 
@@ -148,7 +148,7 @@ all: $(BINFILES)
 ../src/run_proj.o: ../src/run_proj.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h 
 	$(CC) $(CFLAGS) -c ../src/run_proj.cc -o ../src/run_proj.o
 
-../src/run_dos.o: ../src/run_dos.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h ../include/BandsCalculator.h ../include/Bands.h 
+../src/run_dos.o: ../src/run_dos.cc ../include/FileAlmblm.h ../include/FileRot.h ../include/FileSmat.h  ../include/GeneralCoefficient.h ../include/Projector.h ../include/ProjectorCalculator.h ../include/FileEnergy.h ../include/FermiEnergy.h ../include/FileStruct.h ../include/Overlap.h ../include/OverlapCalculator.h ../include/FileOutputproj.h ../include/FileSymm.h ../include/FileIngf.h ../include/GreensFunctionCalculator.h  ../include/GreensFunction.h ../include/GreensFunctionProjector.h ../include/KSymmSum.h  ../include/DOS.h  ../include/DOSCalculator.h ../include/BandsCalculator.h ../include/Bands.h ../include/WaveFunction.h
 	$(CC) $(CFLAGS) -c ../src/run_dos.cc -o ../src/run_dos.o
 
 ../src/init_smat.o: ../src/init_smat.cc

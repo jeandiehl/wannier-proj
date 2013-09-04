@@ -14,7 +14,7 @@ FileOutputproj::~FileOutputproj() {}
 void FileOutputproj::read(std::vector<std::vector<std::vector<std::vector<int> > > >& combIndex, std::vector<std::vector<int> >& energyInd, std::vector<int>& combIndexJAtom, std::vector<int>& combIndexAtom, std::vector<int>& combIndexL, std::vector<int>& combIndexM) {
 	std::string line;
 
-	unsigned int NcombIndex, NAtom, NJAtom, Nl, Nm, Nkpoints, Nenergy;
+	unsigned int NcombIndex = 0, NAtom = 0, NJAtom = 0, Nl = 0, Nm = 0, Nkpoints = 0, Nenergy = 0;
 	int energyIndex = 0;
 	
 	if (myfile.is_open()) {
@@ -68,6 +68,7 @@ void FileOutputproj::read(std::vector<std::vector<std::vector<std::vector<int> >
 				if (line.substr(16,13).compare("(k-vector ID)") == 0) {
 					std::stringstream s(line.substr(0,12));
 					s >> Nkpoints;
+                    //std::cout << Nkpoints << std::endl;
 					energyInd.resize(Nkpoints);
 				}
 			}

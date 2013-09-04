@@ -21,6 +21,7 @@ void Projector::initialize(std::vector<std::vector<std::vector<std::vector<int> 
 	proj.resize(energyIndex.size());
 	for(unsigned int i = 0; i < energyIndex.size(); i++) {
 		proj[i].resize(energyIndex[i].size(), combinedIndexJAtom.size());
+        //std::cout <<combinedIndexJAtom.size() << " " << proj[i].cols() << " " << proj[i].rows() << std::endl;
 		proj[i].setZero();
 	}
 	
